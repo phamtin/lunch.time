@@ -1,0 +1,23 @@
+# compiled output
+/dist
+/node_modules
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+
+# IDE - VSCode
+.vscode/*
+
+# Env
+# .env*
+
+#Pem
+lunchtime-keypair.pem

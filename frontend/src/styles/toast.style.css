@@ -1,0 +1,14 @@
+.Toastify__toast {
+  width: 320px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.Toastify__toast.Toastify__toast--success {
+  box-shadow: 0 4px 12px 0 rgba(0, 235, 12, 0.15),
+    0 2px 15px 0 rgba(40, 238, 0, 0.15);
+}
+
+.Toastify__toast.Toastify__toast--error {
+  box-shadow: 0 4px 12px 0 rgba(235, 0, 0, 0.15), 0 2px 15px 0 rgba(238, 0, 0, 0.15);
+}

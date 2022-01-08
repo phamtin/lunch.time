@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    # stdin_open: true
+    # tty: true
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    # volumes:
+    #   - ./api:/app
+    #   - /app/node_modules
+    restart: unless-stopped
+    env_file:
+      - ./api/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+  database:
+    image: mongo:4.4.10
+    volumes:
+      - ./api/.docker/data/database:/data/db
+    restart: unless-stopped
+
+  # redis:
+  #   image: redis:6-alpine
+  #   volumes:
+  #     - .docker/data/redis:/data
+  #   restart: unless-stopped
