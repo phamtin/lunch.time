@@ -20,6 +20,7 @@ import {
   Button,
 } from '@mui/material';
 
+import { useLogout } from '@app/modules/auth/hooks/auth.hook';
 import theme from '@app/styles/theme';
 import {
   APP_BAR_HEIGHT,
@@ -39,8 +40,12 @@ const Appbar = ({ isOpenDrawerSidebar }: AppbarProps) => {
     setAnchor(e.currentTarget);
   };
 
+  const { mutate } = useLogout();
+
   const linkAva =
     'https://lh3.googleusercontent.com/a-/AOh14Ghp43JKBN_eX6UkmVtyBu1rgxG48OC_VKrhaWz6VsE=s120';
+
+  const onLogout = () => mutate();
 
   return (
     <AppBar
@@ -195,6 +200,7 @@ const Appbar = ({ isOpenDrawerSidebar }: AppbarProps) => {
                 size="large"
                 fullWidth
                 sx={{ mx: 'auto', color: theme.palette.primary.main }}
+                onClick={onLogout}
               >
                 <LockOpen />
                 &nbsp;

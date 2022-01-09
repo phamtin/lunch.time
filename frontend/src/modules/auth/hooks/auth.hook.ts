@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from 'react-query';
 
 import { toastify } from '@app/components/Snackbar/SnackBar';
-import { setCurrentUser, setToken } from '@app/utils/common/storage';
+import { removeToken, setCurrentUser, setToken } from '@app/utils/common/storage';
 
-import { signinApi } from '../api/auth.api';
+import { logoutApi, signinApi } from '../api/auth.api';
 
 export const useSignin = () => {
   return useMutation(signinApi, {
@@ -20,6 +20,21 @@ export const useSignin = () => {
       });
       setToken('abc123');
       window.location.pathname = '/';
+    },
+  });
+};
+
+export const useLogout = () => {
+  return useMutation(logoutApi, {
+    onSuccess: () => {
+      toastify('success', 'Successfully');
+    },
+    onError: (err: string) => {
+      toastify('error', err);
+    },
+    onMutate: () => {
+      removeToken();
+      window.location.pathname = '/signin';
     },
   });
 };
