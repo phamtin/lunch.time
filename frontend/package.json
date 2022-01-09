@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.5",
+    "@mui/styles": "^5.2.3",
     "@mui/system": "^5.2.5",
     "@types/lodash.get": "^4.4.6",
     "axios": "^0.21.4",
