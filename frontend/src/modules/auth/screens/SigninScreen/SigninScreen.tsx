@@ -1,5 +1,6 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 
 import { useSignin } from '../../hooks/auth.hook';
 import { LoginInput } from '../../types/auth.type';
@@ -11,6 +12,7 @@ export default function Login() {
     formState: { errors, isValid },
   } = useForm<LoginInput>();
 
+  const history = useHistory();
   const { mutate, isLoading } = useSignin();
 
   const submitSignin = (payload: LoginInput) => {
@@ -18,6 +20,10 @@ export default function Login() {
   };
 
   if (isLoading) return <span>Loading...</span>;
+
+  const onSignup = () => {
+    history.push('/signup');
+  };
 
   return (
     <Box
@@ -100,6 +106,18 @@ export default function Login() {
             >
               Sign in
             </Button>
+            <Box
+              sx={{
+                mt: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              Dont have an account? &nbsp;
+              <Typography sx={{ cursor: 'pointer' }} onClick={onSignup}>
+                <strong>Register</strong>
+              </Typography>
+            </Box>
           </form>
         </Box>
         <br />
