@@ -132,7 +132,7 @@ const SignupScreen = () => {
               Sign up
             </Button>
             <Box className={classes.loginButton}>
-              &nbsp;
+              Already have an account?&nbsp;
               <Typography className={classes.loginButtonTitle} onClick={onLogin}>
                 <strong>Login</strong>
               </Typography>
