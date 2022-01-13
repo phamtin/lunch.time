@@ -113,7 +113,7 @@ export default function Login() {
                 justifyContent: 'center',
               }}
             >
-              Dont have an account? &nbsp;
+              Dont have an account?&nbsp;
               <Typography sx={{ cursor: 'pointer' }} onClick={onSignup}>
                 <strong>Register</strong>
               </Typography>
