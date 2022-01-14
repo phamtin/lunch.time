@@ -9,12 +9,6 @@ import {
 } from '@mui/icons-material';
 import { Drawer, Box, Button, List, ListItem, ListItemText } from '@mui/material';
 
-import theme from '@app/styles/theme';
-import {
-  APP_SIDEBAR_WIDTH,
-  APP_SIDEBAR_WIDTH_SMALL,
-} from '@app/utils/constants/constants';
-
 import { useStyles } from './styles';
 
 interface SidebarProps {
@@ -28,53 +22,40 @@ function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
   return (
     <Drawer variant="permanent" open={isOpenDrawerSidebar}>
       <Box
-        className={classes.container}
-        sx={{
-          width: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
-        }}
+        className={`${classes.container} ${
+          !isOpenDrawerSidebar && classes.smallWidthContainer
+        }`}
       >
         <List
-          className={classes.list}
-          sx={{
-            '.MuiSvgIcon-root': { mr: '10px' },
-            '.MuiListItem-root': {
-              ':hover': {
-                backgroundColor: 'rgba(255,255,255,0.2)',
-                color: theme.palette.primary.contrastText,
-              },
-            },
-          }}
+          className={`${classes.list} ${!isOpenDrawerSidebar && classes.smallList}`}
         >
-          <ListItemText className={classes.listText}>GENERAL</ListItemText>
           <ListItem button>
             <Feed />
-            Blueprints
+            <ListItemText>Blueprints</ListItemText>
           </ListItem>
           <ListItem button>
             <HealthAndSafety />
-            Data Display
+            <ListItemText>Data Display</ListItemText>
           </ListItem>
-          <ListItemText className={classes.listText}>MANAGEMENT</ListItemText>
           <ListItem button>
             <AssignmentInd />
-            Users
+            <ListItemText>Users</ListItemText>
           </ListItem>
           <ListItem button>
             <AccountTree />
-            Projects
+            <ListItemText>Projects</ListItemText>
           </ListItem>
         </List>
-        <Button
-          sx={{
-            py: '8px',
-            borderRadius: 1000,
-            m: 'auto 0 20px 0',
-          }}
-          variant="outlined"
-          onClick={toggleDrawerSidebar}
-        >
-          <ArrowBack />
-        </Button>
+        <Box className={classes.buttonContainer}>
+          <Button
+            className={classes.button}
+            variant="outlined"
+            onClick={toggleDrawerSidebar}
+            fullWidth
+          >
+            <ArrowBack />
+          </Button>
+        </Box>
       </Box>
     </Drawer>
   );
