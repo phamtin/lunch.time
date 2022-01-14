@@ -124,7 +124,15 @@ const Appbar = ({ isOpenDrawerSidebar }: AppbarProps) => {
           <Menu
             open={isOpen}
             anchorEl={anchor}
-            sx={{ '.MuiList-root': { py: 0 } }}
+            sx={{
+              '.MuiList-root': {
+                py: 0,
+              },
+              '.MuiMenuItem-root': {
+                px: theme.spacing(2.5),
+                '&: hover': { borderRadius: '100px' },
+              },
+            }}
             onClose={() => setIsOpen(false)}
           >
             <Box
