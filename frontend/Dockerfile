@@ -10,12 +10,14 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+CMD ["npm", "start"]
 
 # Stage 2 - Running image
 
-FROM nginx:1.21.5 as production-stage
+# RUN npm run build
 
-COPY --from=node /app/build /usr/share/nginx/html
+# FROM nginx:1.21.5 as production-stage
 
-CMD ["nginx", "-g", "daemon off;"]
+# COPY --from=node /app/build /usr/share/nginx/html
+
+# CMD ["nginx", "-g", "daemon off;"]
