@@ -7,7 +7,14 @@ import {
   AssignmentInd,
   AccountTree,
 } from '@mui/icons-material';
-import { Drawer, Box, Button, List, ListItem, ListItemText } from '@mui/material';
+import {
+  Drawer,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+} from '@mui/material';
 
 import { useStyles } from './styles';
 
@@ -46,16 +53,9 @@ function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
             <ListItemText>Projects</ListItemText>
           </ListItem>
         </List>
-        <Box className={classes.buttonContainer}>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            onClick={toggleDrawerSidebar}
-            fullWidth
-          >
-            <ArrowBack />
-          </Button>
-        </Box>
+        <IconButton className={classes.button} onClick={toggleDrawerSidebar}>
+          <ArrowBack />
+        </IconButton>
       </Box>
     </Drawer>
   );

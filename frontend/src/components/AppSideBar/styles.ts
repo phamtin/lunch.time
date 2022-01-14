@@ -10,6 +10,7 @@ export const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
+
     height: '100vh',
     backgroundColor: 'rgb(17, 25, 42)',
     transition: '0.4s',
@@ -20,7 +21,6 @@ export const useStyles = makeStyles({
     width: APP_SIDEBAR_WIDTH_SMALL,
   },
   list: {
-    flex: 1,
     color: theme.palette.grey[400],
     '& .MuiListItem-root': {
       '&:hover': {
@@ -37,10 +37,11 @@ export const useStyles = makeStyles({
     '& .MuiSvgIcon-root': { fontSize: '30px' },
     '& .MuiListItemText-root': { display: 'none' },
   },
-  buttonContainer: {
-    padding: '0 3px',
-  },
   button: {
-    borderRadius: 1000,
+    color: 'white',
+    border: '1px solid white',
+    borderRadius: '8px',
+    padding: '8px 0 ',
+    margin: 'auto 0 20px 0',
   },
 });
