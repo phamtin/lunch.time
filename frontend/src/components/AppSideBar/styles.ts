@@ -10,17 +10,16 @@ export const useStyles = makeStyles({
   container: {
     display: 'flex',
     flexDirection: 'column',
-
     height: '100vh',
     backgroundColor: 'rgb(17, 25, 42)',
     transition: '0.4s',
     width: APP_SIDEBAR_WIDTH,
-    paddingBottom: '20px',
   },
   smallWidthContainer: {
     width: APP_SIDEBAR_WIDTH_SMALL,
   },
   list: {
+    flex: 1,
     color: theme.palette.grey[400],
     '& .MuiListItem-root': {
       '&:hover': {
@@ -41,7 +40,6 @@ export const useStyles = makeStyles({
     color: 'white',
     border: '1px solid white',
     borderRadius: '8px',
-    padding: '8px 0 ',
-    margin: 'auto 0 20px 0',
+    margin: '10px',
   },
 });
