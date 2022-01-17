@@ -41,7 +41,7 @@ function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
           {navs.map(nav => (
             <ListItem key={nav.id} button component={RouterLink} to={nav.url}>
               <ListItemIcon>{nav.icon}</ListItemIcon>
-              <ListItemText>{nav.name}</ListItemText>
+              {isOpenDrawerSidebar && <ListItemText>{nav.name}</ListItemText>}
             </ListItem>
           ))}
         </List>

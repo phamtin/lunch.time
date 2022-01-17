@@ -18,11 +18,11 @@ export const useStyles = makeStyles({
     height: '100vh',
     padding: theme.spacing(1),
     backgroundColor: 'rgb(17, 25, 42)',
+    overflowX: 'hidden',
     transition: '0.4s',
   },
   list: {
-    marginBottom: '10px!important',
-    overflow: 'hidden',
+    flex: 1,
     color: theme.palette.grey[400],
     '& .MuiListItem-root': {
       display: 'flex',
