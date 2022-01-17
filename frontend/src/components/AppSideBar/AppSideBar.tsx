@@ -1,20 +1,18 @@
 import { memo } from 'react';
 
-import {
-  ArrowBack,
-  Feed,
-  HealthAndSafety,
-  AssignmentInd,
-  AccountTree,
-} from '@mui/icons-material';
+import { ArrowBack } from '@mui/icons-material';
 import {
   Drawer,
   Box,
   List,
   ListItem,
+  ListItemIcon,
   ListItemText,
   IconButton,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+
+import { navs } from '@app/utils/constants/constants';
 
 import { useStyles } from './styles';
 
@@ -27,7 +25,11 @@ function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
   const classes = useStyles();
 
   return (
-    <Drawer variant="permanent" open={isOpenDrawerSidebar}>
+    <Drawer
+      variant="permanent"
+      className={classes.drawer}
+      open={isOpenDrawerSidebar}
+    >
       <Box
         className={`${classes.container} ${
           !isOpenDrawerSidebar && classes.smallWidthContainer
@@ -36,22 +38,12 @@ function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
         <List
           className={`${classes.list} ${!isOpenDrawerSidebar && classes.smallList}`}
         >
-          <ListItem button>
-            <Feed />
-            <ListItemText>Blueprints</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <HealthAndSafety />
-            <ListItemText>Data Display</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <AssignmentInd />
-            <ListItemText>Users</ListItemText>
-          </ListItem>
-          <ListItem button>
-            <AccountTree />
-            <ListItemText>Projects</ListItemText>
-          </ListItem>
+          {navs.map(nav => (
+            <ListItem key={nav.id} button component={RouterLink} to={nav.url}>
+              <ListItemIcon>{nav.icon}</ListItemIcon>
+              <ListItemText>{nav.name}</ListItemText>
+            </ListItem>
+          ))}
         </List>
         <IconButton className={classes.button} onClick={toggleDrawerSidebar}>
           <ArrowBack />
