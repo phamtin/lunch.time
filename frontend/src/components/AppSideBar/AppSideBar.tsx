@@ -1,12 +1,20 @@
 import { memo } from 'react';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Drawer, Box, Divider, Button } from '@mui/material';
-
+import { ArrowBack } from '@mui/icons-material';
 import {
-  APP_SIDEBAR_WIDTH,
-  APP_SIDEBAR_WIDTH_SMALL,
-} from '@app/utils/constants/constants';
+  Drawer,
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+
+import { navs } from '@app/utils/constants/constants';
+
+import { useStyles } from './styles';
 
 interface SidebarProps {
   isOpenDrawerSidebar: boolean;
@@ -14,28 +22,32 @@ interface SidebarProps {
 }
 
 function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
+  const classes = useStyles();
+
   return (
-    <Drawer variant="permanent" open={isOpenDrawerSidebar}>
+    <Drawer
+      variant="permanent"
+      className={classes.drawer}
+      open={isOpenDrawerSidebar}
+    >
       <Box
-        sx={{
-          width: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          height: '100vh',
-          backgroundColor: 'rgb(17, 25, 42)',
-          transition: '0.4s',
-        }}
+        className={`${classes.container} ${
+          !isOpenDrawerSidebar && classes.smallWidthContainer
+        }`}
       >
-        <Box sx={{ color: '#fff' }}>L T</Box>
-        <Divider />
-        <Button
-          sx={{ py: '8px', borderRadius: 1000, m: 'auto 0 20px 0' }}
-          variant="outlined"
-          onClick={toggleDrawerSidebar}
+        <List
+          className={`${classes.list} ${!isOpenDrawerSidebar && classes.smallList}`}
         >
-          <ArrowBackIcon />
-        </Button>
+          {navs.map(nav => (
+            <ListItem button key={nav.id} component={RouterLink} to={nav.url}>
+              <ListItemIcon>{nav.icon}</ListItemIcon>
+              {isOpenDrawerSidebar && <ListItemText>{nav.name}</ListItemText>}
+            </ListItem>
+          ))}
+        </List>
+        <IconButton className={classes.button} onClick={toggleDrawerSidebar}>
+          <ArrowBack />
+        </IconButton>
       </Box>
     </Drawer>
   );
