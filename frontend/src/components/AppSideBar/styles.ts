@@ -16,7 +16,7 @@ export const useStyles = makeStyles({
     flexDirection: 'column',
     width: APP_SIDEBAR_WIDTH,
     height: '100vh',
-    padding: theme.spacing(1),
+    padding: theme.spacing(1.25),
     backgroundColor: 'rgb(17, 25, 42)',
     overflowX: 'hidden',
     transition: '0.4s',
@@ -30,7 +30,7 @@ export const useStyles = makeStyles({
       alignItems: 'center',
       borderRadius: '12px',
       '&:hover': {
-        backgroundColor: 'rgba(255, 255, 255, 0.06)',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         color: '#fff',
         '& .MuiSvgIcon-root': {
           color: '#fff',
@@ -53,6 +53,9 @@ export const useStyles = makeStyles({
       justifyContent: 'center',
       marginRight: 0,
       marginLeft: '15px',
+    },
+    '& .MuiListItem-root': {
+      marginBottom: '14px!important',
     },
   },
   smallWidthContainer: {

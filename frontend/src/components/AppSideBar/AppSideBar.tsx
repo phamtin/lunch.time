@@ -39,7 +39,7 @@ function Sidebar({ isOpenDrawerSidebar, toggleDrawerSidebar }: SidebarProps) {
           className={`${classes.list} ${!isOpenDrawerSidebar && classes.smallList}`}
         >
           {navs.map(nav => (
-            <ListItem key={nav.id} button component={RouterLink} to={nav.url}>
+            <ListItem button key={nav.id} component={RouterLink} to={nav.url}>
               <ListItemIcon>{nav.icon}</ListItemIcon>
               {isOpenDrawerSidebar && <ListItemText>{nav.name}</ListItemText>}
             </ListItem>
