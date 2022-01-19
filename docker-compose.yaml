@@ -19,14 +19,14 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    # volumes:
-    #   - ./api:/app
-    #   - /app/node_modules
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+      - /app/node_modules
     restart: unless-stopped
     env_file:
       - ./api/.env
-    ports:
-      - "8000:8000"
     depends_on:
       - database
   database:
@@ -34,9 +34,3 @@ services:
     volumes:
       - ./api/.docker/data/database:/data/db
     restart: unless-stopped
-
-  # redis:
-  #   image: redis:6-alpine
-  #   volumes:
-  #     - .docker/data/redis:/data
-  #   restart: unless-stopped
