@@ -1,5 +1,7 @@
 Dockerfile
+
 .docker
-dist
+
+.git
+
 node_modules
-.gitignore

@@ -31,12 +31,12 @@ export const navs = [
   {
     id: 1,
     name: 'Blueprints',
-    url: '/blueprints',
+    url: '/',
     icon: <Feed />,
   },
   {
     id: 2,
-    url: '/data-display',
+    url: '/',
     name: 'Data display',
     icon: <HealthAndSafety />,
   },
@@ -48,8 +48,8 @@ export const navs = [
   },
   {
     id: 4,
-    url: '/projects',
-    name: 'Projects',
+    url: '/meetings',
+    name: 'meetings',
     icon: <AccountTree />,
   },
 ];

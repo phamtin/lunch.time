@@ -29,22 +29,12 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
     setIsOpenDrawerSidebar(!isOpenDrawerSidebar);
   };
 
-  // const changeOpenSubMenu = (value: string) => {
-  //   if (currentSubMenu === value) {
-  //     setCurrentSubMenu('');
-  //   } else {
-  //     setCurrentSubMenu(value);
-  //   }
-  // };
-
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
       {currentSubMenu}
       <AppSidebar
         toggleDrawerSidebar={onToggleDrawerSidebar}
         isOpenDrawerSidebar={isOpenDrawerSidebar}
-        // openingSubMenu={currentSubMenu}
-        // setOpenSubMenu={changeOpenSubMenu}
       />
       <Box
         sx={{
@@ -62,7 +52,7 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
             mt: APP_BAR_HEIGHT,
             ml: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
             backgroundColor: 'rgb(242, 245, 249)',
-            transition: '0.4s',
+            transition: '0.3s',
           }}
         >
           <Box>{children}</Box>

@@ -19,14 +19,14 @@ export const useStyles = makeStyles({
     padding: theme.spacing(1.25),
     backgroundColor: 'rgb(17, 25, 42)',
     overflowX: 'hidden',
-    transition: '0.4s',
+    transition: '0.3s',
   },
   list: {
     flex: 1,
     color: theme.palette.grey[400],
     '& .MuiListItem-root': {
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'center',
       alignItems: 'center',
       borderRadius: '12px',
       '&:hover': {
@@ -48,7 +48,7 @@ export const useStyles = makeStyles({
   },
   smallList: {
     '& .MuiSvgIcon-root': {
-      transition: '0.4s',
+      transition: '0.3s',
       fontSize: '25px',
       justifyContent: 'center',
       marginRight: 0,

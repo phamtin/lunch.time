@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { MeetingsPaths } from '../meeting';
+import { MeetingsPaths } from '../constants/constants';
 
-const SigninScreen = React.lazy(
-  () => import('@app/modules/auth/screens/SigninScreen/SigninScreen')
+const MeetingsScreen = React.lazy(
+  () => import('@app/modules/meetings/screens/MeetingsScreen/MeetingsScreen')
 );
-const AuthLayout = React.lazy(() => import('@app/layouts/default/DefaultLayout'));
+const Layout = React.lazy(() => import('@app/layouts/default/DefaultLayout'));
 
-const MEETING_SCREEN = {
-  id: 'login',
-  title: 'Welcome back, Admin',
+const MEETINGS_SCREEN = {
+  id: 'meetings',
+  title: 'Meetings list',
   path: MeetingsPaths.MEETINGS,
-  component: SigninScreen,
-  layout: AuthLayout,
-  isAuthRoute: true,
+  component: MeetingsScreen,
+  layout: Layout,
+  isAuthRoute: false,
 };
 
-const MEETING_ROUTES = [MEETING_SCREEN];
+const MEETING_ROUTES = [MEETINGS_SCREEN];
 
 export default MEETING_ROUTES;

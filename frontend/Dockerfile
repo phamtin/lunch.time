@@ -4,20 +4,18 @@ FROM node:14-alpine as node
 
 WORKDIR /app
 
-COPY package.json ./
+COPY . .
 
 RUN npm install
 
-COPY . .
-
-CMD ["npm", "start"]
+RUN run build
 
 # Stage 2 - Running image
 
-# RUN npm run build
+RUN npm run build
 
-# FROM nginx:1.21.5 as production-stage
+FROM nginx:1.21.5 as production-stage
 
-# COPY --from=node /app/build /usr/share/nginx/html
+COPY --from=node /app/build /usr/share/nginx/html
 
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

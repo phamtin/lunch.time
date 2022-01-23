@@ -56,7 +56,7 @@ const Appbar = ({ isOpenDrawerSidebar }: AppbarProps) => {
         height: APP_BAR_HEIGHT,
         backgroundColor: 'white',
         color: 'secondary.dark',
-        transition: '0.4s',
+        transition: '0.3s',
       }}
     >
       <Box
