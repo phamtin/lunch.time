@@ -27,6 +27,7 @@ services:
     restart: unless-stopped
     env_file:
       - ./api/.env
+    user: "1000:1000"  
     depends_on:
       - database
   database:

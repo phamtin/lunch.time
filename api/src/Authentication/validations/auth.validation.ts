@@ -14,8 +14,8 @@ export class SignupDtoValidation implements PipeTransform {
     constructor() {
         this.schema = Joi.object<SignupDto>({
             email: Joi.string().lowercase().trim().email().required(),
-            password: Joi.string().trim().required(),
-            username: Joi.string().trim().min(3).max(64).required(),
+            password: Joi.string().trim().min(4).max(32).required(),
+            username: Joi.string().trim().min(2).max(64).required(),
         });
     }
 
@@ -58,7 +58,7 @@ export class SigninSocialDtoValidation implements PipeTransform {
             idToken: Joi.string().trim().required(),
             familyName: Joi.string().trim().min(1).max(32),
             givenName: Joi.string().trim().min(1).max(32),
-            username: Joi.string().trim().min(3).max(64).required(),
+            username: Joi.string().trim().min(2).max(64).required(),
             photo: Joi.string().trim(),
         });
     }
