@@ -1,9 +1,10 @@
 import { memo, ReactNode, useEffect, useState } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import Appbar from '@app/components/AppBar/AppBar';
 import AppSidebar from '@app/components/AppSideBar/AppSideBar';
+import theme from '@app/styles/theme';
 import {
   APP_BAR_HEIGHT,
   APP_SIDEBAR_WIDTH,
@@ -48,14 +49,33 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
 
         <Box
           sx={{
-            height: '100%',
+            height: 'maxContent',
             mt: APP_BAR_HEIGHT,
             ml: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
+            p: theme.spacing(3.5),
             backgroundColor: 'rgb(242, 245, 249)',
             transition: '0.3s',
           }}
         >
           <Box>{children}</Box>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            ml: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
+            p: '30px 28px',
+            color: theme.palette.grey[500],
+            transition: '0.3s',
+          }}
+        >
+          <Typography>
+            © 2022 - Lunchtime React Typescript Admin Dashboard
+          </Typography>
+          <Typography>
+            Crafted with heart by&nbsp;
+            <span style={{ color: '#7484fc', fontWeight: 'bold' }}>Ragon, Kuro</span>
+          </Typography>
         </Box>
       </Box>
     </Box>

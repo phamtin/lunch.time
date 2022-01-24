@@ -1,4 +1,26 @@
-# Stage 1 - Building image
+#==========================================================
+#   Development
+#==========================================================
+
+# FROM node:14-alpine as node
+
+# WORKDIR /app
+
+# COPY package.json ./
+
+# RUN npm install
+
+# COPY . .
+
+# EXPOSE 3000
+
+# CMD ["npm", "start"]
+
+#==========================================================
+#   Production
+#==========================================================
+
+# Stage 1 - build stage
 
 FROM node:14-alpine as node
 
@@ -8,13 +30,13 @@ COPY . .
 
 RUN npm install
 
-RUN run build
-
-# Stage 2 - Running image
-
 RUN npm run build
 
+# Stage 2 - production stage
+
 FROM nginx:1.21.5 as production-stage
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=node /app/build /usr/share/nginx/html
 

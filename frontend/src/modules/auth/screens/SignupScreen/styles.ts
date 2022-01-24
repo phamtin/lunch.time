@@ -43,4 +43,7 @@ export const useStyles = makeStyles({
   loginButtonTitle: {
     cursor: 'pointer',
   },
+  button: {
+    marginTop: '10px',
+  },
 });

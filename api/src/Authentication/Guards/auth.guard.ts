@@ -23,6 +23,10 @@ export class AuthGuard implements CanActivate {
             return [key, cors[key]];
         });
         response.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+        response.header(
+            'Access-Control-Allow-Origin',
+            'https://frontend-phamtin.cloud.okteto.net',
+        );
 
         for (let i = 0; i < settings.length; i++) {
             response.header(settings[i][0], settings[i][1]);
@@ -48,7 +52,7 @@ export class AuthGuard implements CanActivate {
             const userId = verified.userId;
 
             const currentUser = await this.getUser.GetById(userId);
-            if (!currentUser) throw new ForbiddenException('User Not found');
+            if (!currentUser) throw new ForbiddenException('User Not found...');
 
             if (currentUser.status !== Status.active) {
                 throw new ForbiddenException('User inactive');

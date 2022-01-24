@@ -43,7 +43,7 @@ function Toastify({ type, msg }: Props) {
             justifyContent: 'center',
             flexShrink: 0,
             alignItems: 'center',
-            marginRight: '12px',
+            marginRight: '14px',
             width: '46px',
             height: '46px',
             backgroundColor: '#ffe8ea',

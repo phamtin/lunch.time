@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 
-import { getToken } from '@app/utils/common/storage';
+import { getToken, removeCurrentUser, removeToken } from '@app/utils/common/storage';
 
 import { trimValue, toCamelCase } from '../utils/helpers/transform';
 
@@ -12,7 +12,7 @@ const authInterceptor = (request: AxiosRequestConfig) => {
   const accessToken = getToken();
 
   if (accessToken) {
-    requestConfig.headers.AuthorizationI = `API ${accessToken}`;
+    requestConfig.headers.authorization = `API ${accessToken}`;
   }
 
   return requestConfig;
@@ -34,19 +34,23 @@ const responseInterceptor = (response: AxiosResponse) => {
 
 const errorInterceptor = async (errorAxios: AxiosError) => {
   if (errorAxios?.response) {
-    const statusCode = errorAxios.response.status;
+    const { statusCode } = errorAxios.response.data;
     switch (statusCode) {
       case 401:
-        // await logout();
-        window.location.replace('/');
+        removeToken();
+        removeCurrentUser();
+        window.location.replace('/signin');
         break;
       case 403:
-        window.location.replace('/');
+        removeToken();
+        removeCurrentUser();
+        window.location.replace('/signin');
         break;
       default:
+      // code block
     }
   }
-  return Promise.reject(errorAxios);
+  return Promise.reject(errorAxios.response?.data);
 };
 
 /** Add interceptor */

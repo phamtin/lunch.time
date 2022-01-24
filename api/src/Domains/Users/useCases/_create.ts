@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CreateUserDto } from 'src/API/Users/users.dto';
+import { SignupAdminDto } from 'src/Authentication/dto/auth.dto';
 
 import { IUserRepository } from '../IUsers.repository';
 
@@ -13,7 +14,7 @@ export class CreateUser {
         return this.userRepository.createUser(payload);
     }
 
-    public async CreateAdmin(payload: CreateUserDto): Promise<any> {
+    public async CreateAdmin(payload: SignupAdminDto): Promise<any> {
         return this.userRepository.createUser(payload);
     }
 }

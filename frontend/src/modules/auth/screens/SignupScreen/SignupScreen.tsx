@@ -3,7 +3,9 @@ import { Box } from '@mui/system';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
-import { RegisterInput, validEmail } from '../../types/auth.type';
+import theme from '@app/styles/theme';
+
+import { RegisterInput, EMAIL_REGEX } from '../../types/auth.type';
 import { useStyles } from './styles';
 
 const SignupScreen = () => {
@@ -16,8 +18,8 @@ const SignupScreen = () => {
     formState: { errors },
   } = useForm<RegisterInput>();
 
-  const submitSignup = (payload: RegisterInput) => {
-    alert(JSON.stringify(payload));
+  const submitSignup = () => {
+    history.push('/signin');
   };
 
   const onLogin = () => {
@@ -44,7 +46,7 @@ const SignupScreen = () => {
                     value: true,
                   },
                   pattern: {
-                    value: validEmail,
+                    value: EMAIL_REGEX,
                     message: 'Email is invalid',
                   },
                 }}
@@ -111,6 +113,10 @@ const SignupScreen = () => {
                     message: 'Username requires at least 2 characters',
                     value: 2,
                   },
+                  maxLength: {
+                    message: "Username's too long",
+                    value: 64,
+                  },
                 }}
                 defaultValue=""
                 render={({ field }) => (
@@ -128,7 +134,13 @@ const SignupScreen = () => {
                 )}
               />
             </Box>
-            <Button fullWidth type="submit" variant="contained" size="large">
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              size="large"
+              className={classes.button}
+            >
               Sign up
             </Button>
             <Box className={classes.loginButton}>
@@ -142,7 +154,9 @@ const SignupScreen = () => {
         <br />
         <br />
         <br />
-        <Typography>Lunchtime Dashboard Ⓒ 2022</Typography>
+        <Typography sx={{ color: theme.palette.grey[400] }}>
+          Lunchtime Dashboard Ⓒ 2022
+        </Typography>
       </Box>
     </Box>
   );

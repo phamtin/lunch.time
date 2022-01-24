@@ -7,9 +7,13 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./frontend/.env
+    # volumes: 
+    #   - ./frontend:/app
+    #   - /app/node_modules  
     restart: unless-stopped
     ports:
       - "3000:80"
+      # - "3000:3000"
     # stdin_open: true
     # tty: true
     depends_on:
@@ -27,6 +31,7 @@ services:
     restart: unless-stopped
     env_file:
       - ./api/.env
+    user: "1000:1000"
     depends_on:
       - database
   database:

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UsersPaths } from '../constants/constants';
+import { UsersPaths } from '../constants/users.path';
 
 const UsersScreen = React.lazy(
   () => import('@app/modules/users/screens/UsersScreen/UsersScreen')

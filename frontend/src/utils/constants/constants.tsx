@@ -9,7 +9,7 @@ import {
 export const EMAIL_REGEX = /^\w+([+.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,12})+$/;
 
 export const APP_BAR_HEIGHT = '55px';
-export const APP_SIDEBAR_WIDTH = '220px';
+export const APP_SIDEBAR_WIDTH = '235px';
 export const APP_SIDEBAR_WIDTH_SMALL = '60px';
 
 export enum PROFILE {
