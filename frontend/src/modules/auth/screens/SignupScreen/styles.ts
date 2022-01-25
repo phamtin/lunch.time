@@ -35,6 +35,9 @@ export const useStyles = makeStyles({
   errorText: {
     color: 'red',
   },
+  button: {
+    marginTop: '10px',
+  },
   loginButton: {
     marginTop: '10px',
     display: 'flex',

@@ -16,8 +16,8 @@ const SignupScreen = () => {
     formState: { errors },
   } = useForm<RegisterInput>();
 
-  const submitSignup = (payload: RegisterInput) => {
-    alert(JSON.stringify(payload));
+  const submitSignup = () => {
+    history.push('/signin');
   };
 
   const onLogin = () => {
@@ -111,6 +111,10 @@ const SignupScreen = () => {
                     message: 'Username requires at least 2 characters',
                     value: 2,
                   },
+                  maxLength: {
+                    message: "Username's too long",
+                    value: 64,
+                  },
                 }}
                 defaultValue=""
                 render={({ field }) => (
@@ -128,7 +132,13 @@ const SignupScreen = () => {
                 )}
               />
             </Box>
-            <Button fullWidth type="submit" variant="contained" size="large">
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              size="large"
+              className={classes.button}
+            >
               Sign up
             </Button>
             <Box className={classes.loginButton}>
