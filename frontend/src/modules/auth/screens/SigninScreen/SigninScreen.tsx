@@ -2,6 +2,8 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
+import theme from '@app/styles/theme';
+
 import { useSignin } from '../../hooks/auth.hook';
 import { LoginInput, validEmail } from '../../types/auth.type';
 
@@ -74,7 +76,7 @@ export default function Login() {
                     helperText={errors.email?.message}
                     FormHelperTextProps={{
                       sx: {
-                        color: 'red',
+                        color: theme.palette.error.main,
                       },
                     }}
                     fullWidth
@@ -111,7 +113,7 @@ export default function Login() {
                     helperText={errors.password?.message}
                     FormHelperTextProps={{
                       sx: {
-                        color: 'red',
+                        color: theme.palette.error.main,
                       },
                     }}
                     fullWidth

@@ -4,7 +4,7 @@ import theme from '@app/styles/theme';
 
 export const useStyles = makeStyles({
   helperText: {
-    color: 'red',
+    color: theme.palette.error.main,
   },
   form: {
     border: '1px solid red',
@@ -33,7 +33,7 @@ export const useStyles = makeStyles({
     marginBottom: '15px',
   },
   errorText: {
-    color: 'red',
+    color: theme.palette.error.main,
   },
   button: {
     marginTop: '10px',
