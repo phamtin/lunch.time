@@ -21,27 +21,23 @@ CMD [ "npm", "run", "start:dev" ]
 #   Production
 #==========================================================
 
-# FROM node:14  AS node
+# FROM node:14-alpine AS node
 
 # WORKDIR /app
-
-# COPY ./package.json ./
-
-# RUN npm install
-
-# COPY . .
-
-# RUN npm run build
-
-# WORKDIR /app
-
-# COPY --from=node /app ./
 
 # RUN npm install -g pm2
 
-# # ----- If UID:GID is 1000:1000 ------
+# COPY ./package.json ./
+
+# RUN npm install --production --silent
+
+# COPY . .
+
 # USER node
-# RUN chown -R node:node /app
+
+# # ----- If UID:GID is 1000:1000 ------
+# # USER node
+# # RUN chown -R node:node /app
 
 # # -------------- Else ----------------
 # # RUN addgroup -g 20 appgroup

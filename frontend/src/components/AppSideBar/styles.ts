@@ -7,6 +7,19 @@ import {
 } from '@app/utils/constants/constants';
 
 export const useStyles = makeStyles({
+  icon: {
+    width: '50px',
+    height: '55px',
+    marginLeft: '18px',
+    marginTop: '16px',
+    cursor: 'pointer',
+  },
+  iconSmall: {
+    width: '40px',
+    height: '46px',
+    marginTop: '25px',
+    marginLeft: '2px',
+  },
   drawer: {
     overflowX: 'hidden',
     whiteSpace: 'nowrap',
@@ -16,21 +29,24 @@ export const useStyles = makeStyles({
     flexDirection: 'column',
     width: APP_SIDEBAR_WIDTH,
     height: '100vh',
-    padding: theme.spacing(1.25),
+    padding: theme.spacing(1),
+    paddingBottom: theme.spacing(3),
     backgroundColor: 'rgb(17, 25, 42)',
     overflowX: 'hidden',
     transition: '0.3s',
   },
   list: {
     flex: 1,
+    paddingTop: '14px',
     color: theme.palette.grey[400],
+    borderTop: '1px solid rgba(255, 255, 255, 0.15)',
     '& .MuiListItem-root': {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: '12px',
       '&:hover': {
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        backgroundColor: 'rgba(255, 255, 255, 0.15)',
         color: '#fff',
         '& .MuiSvgIcon-root': {
           color: '#fff',
@@ -47,12 +63,12 @@ export const useStyles = makeStyles({
     },
   },
   smallList: {
+    marginRight: '-2px!important',
     '& .MuiSvgIcon-root': {
       transition: '0.3s',
       fontSize: '25px',
       justifyContent: 'center',
-      marginRight: 0,
-      marginLeft: '15px',
+      marginLeft: '16px',
     },
     '& .MuiListItem-root': {
       marginBottom: '14px!important',
@@ -67,5 +83,13 @@ export const useStyles = makeStyles({
     borderRadius: '8px',
     padding: '8px 0',
     margin: 'auto 0 20px 0',
+  },
+  activeNav: {
+    borderRadius: '12px',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    color: '#fff',
+    '& .MuiSvgIcon-root': {
+      color: '#fff',
+    },
   },
 });

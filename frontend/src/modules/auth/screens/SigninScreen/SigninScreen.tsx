@@ -2,14 +2,16 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
+import theme from '@app/styles/theme';
+
 import { useSignin } from '../../hooks/auth.hook';
-import { LoginInput } from '../../types/auth.type';
+import { LoginInput, validEmail } from '../../types/auth.type';
 
 export default function Login() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<LoginInput>();
 
   const history = useHistory();
@@ -52,16 +54,29 @@ export default function Login() {
         </Typography>
         <Box>
           <form onSubmit={handleSubmit(submitSignin)}>
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: '20px' }}>
               <Controller
                 name="email"
                 defaultValue=""
                 control={control}
+                rules={{
+                  required: {
+                    message: 'This field is required',
+                    value: true,
+                  },
+                  pattern: {
+                    value: validEmail,
+                    message: 'Email is invalid',
+                  },
+                }}
                 render={({ field }) => (
                   <TextField
                     label="Email"
-                    error={!isValid}
+                    error={!!errors.email}
                     helperText={errors.email?.message}
+                    FormHelperTextProps={{
+                      sx: { color: theme.palette.error.main },
+                    }}
                     fullWidth
                     placeholder="Email address"
                     {...field}
@@ -69,28 +84,48 @@ export default function Login() {
                 )}
               />
             </Box>
-            <Controller
-              name="password"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  label="Password"
-                  type="password"
-                  error={!isValid}
-                  helperText={errors.password?.message}
-                  fullWidth
-                  placeholder="Password"
-                  {...field}
-                />
-              )}
-            />
+            <Box sx={{ mb: '10px' }}>
+              <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: {
+                    message: 'This field is required',
+                    value: true,
+                  },
+                  maxLength: {
+                    message: 'Password requires no more than 12 characters',
+                    value: 32,
+                  },
+                  minLength: {
+                    message: 'Password requires at least 4 characters',
+                    value: 4,
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    label="Password"
+                    type="password"
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
+                    FormHelperTextProps={{
+                      sx: {
+                        color: theme.palette.error.main,
+                      },
+                    }}
+                    fullWidth
+                    placeholder="Password"
+                    {...field}
+                  />
+                )}
+              />
+            </Box>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 flexDirection: 'row-reverse',
-                m: '10px 0 20px 0',
               }}
             >
               <Typography>
@@ -103,12 +138,12 @@ export default function Login() {
               type="submit"
               variant="contained"
               size="large"
+              sx={{ m: '10px 0' }}
             >
               Sign in
             </Button>
             <Box
               sx={{
-                mt: '10px',
                 display: 'flex',
                 justifyContent: 'center',
               }}
@@ -123,7 +158,9 @@ export default function Login() {
         <br />
         <br />
         <br />
-        <Typography>Lunchtime Dashboard Ⓒ 2022</Typography>
+        <Typography sx={{ color: theme.palette.grey[400] }}>
+          Lunchtime Dashboard Ⓒ 2022
+        </Typography>
       </Box>
     </Box>
   );

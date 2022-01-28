@@ -9,4 +9,4 @@ export type RegisterInput = {
   username: string;
 };
 
-export const validEmail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+export const validEmail = /^((?!\.)[\w\-_.+]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;

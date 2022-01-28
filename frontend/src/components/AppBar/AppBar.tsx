@@ -106,7 +106,7 @@ const Appbar = ({ isOpenDrawerSidebar }: AppbarProps) => {
               backgroundColor: '#FFF5EB',
             }}
           >
-            <QuestionAnswer sx={{ color: '#FFB85C' }} />
+            <QuestionAnswer sx={{ color: 'rgb(255, 163, 25)' }} />
           </IconButton>
           <Box
             component="img"
