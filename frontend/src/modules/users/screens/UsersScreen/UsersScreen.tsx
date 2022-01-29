@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
+import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +19,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
+
+import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
+import { useCreateAdmin, useUpdateUser } from '../../hooks/users.hook';
+import { CreateAdminInput, UpdateUserInput } from '../../types/users.type';
 
 interface UsernameProps {
   username: string;
@@ -191,6 +197,39 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 const UsersScreen = () => {
+  const [isOpenUserDialog, setIsOpenUserDialog] = useState<boolean>(false);
+
+  const { mutate: mutateAdmin, isLoading: isLoadingAdmin } = useCreateAdmin();
+  const { mutate: mutateUser } = useUpdateUser();
+
+  const handleOpenDialog = () => setIsOpenUserDialog(prev => !prev);
+
+  const onCloseCreateUserDialog = () => setIsOpenUserDialog(false);
+
+  const onSubmitUser = (
+    mode: 'create' | 'update',
+    data: CreateAdminInput & UpdateUserInput,
+    userId?: string
+  ) => {
+    if (mode === 'create') mutateAdmin({ data });
+
+    if (mode === 'update' && userId) mutateUser({ data, userId });
+
+    setIsOpenUserDialog(false);
+  };
+
+  // const exampleUser = {
+  //   _id: '609269995b2e888426d019ef',
+  //   email: 'tinpham@gmail.com',
+  //   role: 'user',
+  //   username: 'tinphamtp',
+  //   familyName: 'Pham',
+  //   givenName: 'Tin',
+  //   phone: '0763520041',
+  //   avatarUrl: 'https://unsplash.com/wow',
+  //   addressLine: 'Danang',
+  // };
+
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -240,6 +279,23 @@ const UsersScreen = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
+      <Button
+        sx={{ '.MuiButton-startIcon': { m: 0.4 } }}
+        variant="contained"
+        startIcon={<AddIcon />}
+        disabled={!!isLoadingAdmin}
+        onClick={handleOpenDialog}
+      >
+        Create Admin
+      </Button>
+
+      {isOpenUserDialog && (
+        <CreateUpdateUserDialog
+          mode="create"
+          onClose={onCloseCreateUserDialog}
+          onSubmit={onSubmitUser}
+        />
+      )}
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
