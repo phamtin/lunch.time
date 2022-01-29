@@ -1,8 +1,7 @@
-import { CreateUserDto } from 'src/API/Users/users.dto';
 import { Users } from './index';
 
 export interface IUserRepository {
-    createUser(payload: CreateUserDto);
+    createUser(payload: Partial<Users>);
 
     findUsers(criteria: any, select: Partial<Users>);
 

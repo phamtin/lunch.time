@@ -23,7 +23,7 @@ export class UserRepository implements IUserRepository {
             .lean();
     }
 
-    public createUser(user: Users) {
+    public createUser(user: Partial<Users>) {
         return this.userModel.create(user);
     }
 

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import theme from '@app/styles/theme';
 
-import { RegisterInput, validEmail } from '../../types/auth.type';
+import { RegisterInput, EMAIL_REGEX } from '../../types/auth.type';
 import { useStyles } from './styles';
 
 const SignupScreen = () => {
@@ -46,7 +46,7 @@ const SignupScreen = () => {
                     value: true,
                   },
                   pattern: {
-                    value: validEmail,
+                    value: EMAIL_REGEX,
                     message: 'Email is invalid',
                   },
                 }}

@@ -1,22 +1,25 @@
-import { Status } from './users.constant';
+import { Social, Status } from './users.constant';
 
 export interface CreateUserDto {
     email: string;
-    password?: string;
-    idToken?: string;
-    social?: string;
+    idToken: string;
+    social: Social;
+    username: string;
     familyName?: string;
     givenName?: string;
-    username: string;
-    photo?: string;
+    phone?: string;
+    status?: Status;
+    addressLine?: string;
+    avatarUrl?: string;
 }
 
 export interface UpdateProfileDto {
     username?: string;
+    password?: string;
     addressLine?: string;
     givenName?: string;
     familyName?: string;
-    photo?: string;
+    avatarUrl?: string;
     phone?: string;
     status?: Status;
 }

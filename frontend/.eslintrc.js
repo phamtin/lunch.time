@@ -43,6 +43,7 @@ module.exports = {
     'react/require-default-props': 0,
     'import/prefer-default-export': 0,
     'no-unused-expressions': 'off',
+    'no-underscore-dangle': 'off',
     'no-param-reassign': ['error', { props: false }],
     'import/no-cycle': 0,
     '@typescript-eslint/explicit-function-return-type': 'off',

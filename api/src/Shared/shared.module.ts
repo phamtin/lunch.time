@@ -15,16 +15,11 @@ const providers = [DatabaseConnectionService, CryptoService];
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => {
-                const dbUri = configService.get<string>('NODE_ENV') === 'test'
-                    ? `mongodb://${configService.get('DB_HOST_TEST')}/${configService.get(
-                        'DB_NAME_TEST',
-                    )}?readPreference=primary&appname=MongoDB`
-                    : `mongodb://${configService.get('DB_HOST')}/${configService.get(
-                        'DB_NAME',
-                    )}?readPreference=primary&appname=MongoDB`;
-                return {
-                    uri: dbUri,
-                };
+                const dbUri = `mongodb://${configService.get('DB_HOST')}/${configService.get(
+                    'DB_NAME',
+                )}?readPreference=primary&appname=MongoDB`;
+
+                return { uri: dbUri };
             },
             inject: [ConfigService],
         }),

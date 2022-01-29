@@ -5,12 +5,13 @@ export class UserMapper {
     public static updateToDomain(update: UpdateProfileDto): Partial<Users> {
         const partialUser: Partial<Users> = {
             username: update.username ?? undefined,
-            addressLine: update.addressLine ?? undefined,
+            password: update.password ?? undefined,
             givenName: update.givenName ?? undefined,
             familyName: update.familyName ?? undefined,
             phone: update.phone ?? undefined,
             status: update.status ?? undefined,
-            photo: update.phone ?? undefined,
+            avatarUrl: update.avatarUrl ?? undefined,
+            addressLine: update.addressLine ?? undefined,
         };
 
         for (let i = 0; i < Object.keys(partialUser).length; i++) {

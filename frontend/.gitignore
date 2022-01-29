@@ -11,3 +11,4 @@
 # .env.production
 
 yarn-error.log*
+*.pem

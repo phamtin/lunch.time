@@ -50,7 +50,6 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
         <Box
           sx={{
             height: 'maxContent',
-            minHeight: 'calc(100% - 140px)',
             mt: APP_BAR_HEIGHT,
             ml: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
             p: theme.spacing(3.5),
@@ -75,9 +74,7 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
           </Typography>
           <Typography>
             Crafted with heart by&nbsp;
-            <span style={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
-              Ragon, Kuro
-            </span>
+            <span style={{ color: '#7484fc', fontWeight: 'bold' }}>Ragon, Kuro</span>
           </Typography>
         </Box>
       </Box>

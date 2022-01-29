@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import theme from '@app/styles/theme';
 
 import { useSignin } from '../../hooks/auth.hook';
-import { LoginInput, validEmail } from '../../types/auth.type';
+import { LoginInput, EMAIL_REGEX } from '../../types/auth.type';
 
 export default function Login() {
   const {
@@ -20,8 +20,6 @@ export default function Login() {
   const submitSignin = (payload: LoginInput) => {
     return mutate(payload);
   };
-
-  if (isLoading) return <span>Loading...</span>;
 
   const onSignup = () => {
     history.push('/signup');
@@ -65,7 +63,7 @@ export default function Login() {
                     value: true,
                   },
                   pattern: {
-                    value: validEmail,
+                    value: EMAIL_REGEX,
                     message: 'Email is invalid',
                   },
                 }}
@@ -134,7 +132,7 @@ export default function Login() {
             </Box>
             <Button
               fullWidth
-              disabled={isLoading}
+              disabled={!!isLoading}
               type="submit"
               variant="contained"
               size="large"

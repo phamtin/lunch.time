@@ -4,12 +4,12 @@ import {
     Injectable,
     NotFoundException,
 } from '@nestjs/common';
-import { Status } from 'src/API/Users/users.constant';
+import { Role, Social, Status } from 'src/API/Users/users.constant';
 import { CreateUser } from 'src/Domains/Users/useCases/_create';
 import { GetUser } from 'src/Domains/Users/useCases/_read';
 import { CryptoService } from 'src/Shared/services/crypto.service';
 
-import { SigninDto, SigninSocialDto, SignupDto } from './dto/auth.dto';
+import { SigninDto, SigninSocialDto, SignupAdminDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,12 +19,16 @@ export class AuthService {
         private cryptoService: CryptoService,
     ) {}
 
+    /**
+     *  Admin login with Password
+     *  --------------------------
+     */
     async login(data: SigninDto) {
         const user = await this.getUser.GetByEmail(data.email);
-        console.log({ user });
+        console.log({ user, data });
 
         if (!user) {
-            throw new NotFoundException('User with this email is not found');
+            throw new NotFoundException('Admin with this email is not found');
         }
         if (user.status !== Status.active) {
             throw new ForbiddenException('This account is inactive now');
@@ -34,8 +38,9 @@ export class AuthService {
             user.password,
             data.password,
         );
+        console.log('!isValidPassword', isValidPassword);
         if (!isValidPassword) {
-            throw new ForbiddenException('Invalid credentials');
+            throw new BadRequestException('Invalid credentials');
         }
 
         const token = this.cryptoService.generateJWT({
@@ -47,10 +52,16 @@ export class AuthService {
         });
 
         user.password = undefined;
+        console.log(user);
+
         return { user, token };
     }
 
-    async signup(data: SignupDto) {
+    /**
+     *  Register a new Admin.
+     *  ----------------------
+     */
+    async signup(data: SignupAdminDto) {
         const existedUser = await this.getUser.GetByEmail(data.email);
 
         if (existedUser) {
@@ -59,8 +70,9 @@ export class AuthService {
 
         const hashedPassword = await this.cryptoService.hashPassword(data.password);
 
-        const newUser = await this.createUser.Create({
+        const newUser = await this.createUser.CreateAdmin({
             ...data,
+            role: Role.admin,
             password: hashedPassword,
         });
         newUser.password = undefined;
@@ -68,11 +80,15 @@ export class AuthService {
         return { user: newUser };
     }
 
+    /**
+     *  User login with Google
+     *  -----------------------
+     */
     async loginWithGoogle(data: SigninSocialDto) {
         console.log('Google sign in - START');
 
         let token: string, signedUser: Record<string, string>;
-        const { email, idToken, familyName, givenName, username, photo } = data;
+        const { email, idToken, familyName, givenName, username, avatarUrl } = data;
 
         const user = await this.getUser.GetByEmail(email);
 
@@ -81,7 +97,7 @@ export class AuthService {
                 throw new BadRequestException('User existed, please login with password.');
             }
             if (user.social === 'facebook') {
-                throw new BadRequestException('User existed');
+                throw new BadRequestException('User existed, please login with Facebook.');
             }
             if (user.status === 'inactive') {
                 throw new BadRequestException('User inactive');
@@ -95,8 +111,8 @@ export class AuthService {
                 familyName,
                 givenName,
                 username,
-                photo,
-                social: 'google',
+                avatarUrl,
+                social: Social.google,
             });
             signedUser = newUser;
         }

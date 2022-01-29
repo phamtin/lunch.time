@@ -1,25 +1,25 @@
+import { AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 
 import { toastify } from '@app/components/Snackbar/SnackBar';
-import { removeToken, setCurrentUser, setToken } from '@app/utils/common/storage';
+import {
+  removeCurrentUser,
+  removeToken,
+  setCurrentUser,
+  setToken,
+} from '@app/utils/common/storage';
 
 import { logoutApi, signinApi } from '../api/auth.api';
 
 export const useSignin = () => {
   return useMutation(signinApi, {
-    onSuccess: () => {
-      toastify('success', 'Successfully');
-    },
-    onError: (err: string) => {
-      toastify('error', err);
-    },
-    onMutate: () => {
-      setCurrentUser({
-        id: 1,
-        email: 'tinphamtp@gmail.com',
-      });
-      setToken('abc123');
+    onSuccess: (data: AxiosResponse) => {
+      setCurrentUser(data.data.user);
+      setToken(data.data.token);
       window.location.pathname = '/';
+    },
+    onError: (err: Error) => {
+      toastify('error', err.message);
     },
   });
 };
@@ -29,11 +29,9 @@ export const useLogout = () => {
     onSuccess: () => {
       toastify('success', 'Successfully');
     },
-    onError: (err: string) => {
-      toastify('error', err);
-    },
     onMutate: () => {
       removeToken();
+      removeCurrentUser();
       window.location.pathname = '/signin';
     },
   });

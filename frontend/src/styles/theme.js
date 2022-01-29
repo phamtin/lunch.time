@@ -55,7 +55,6 @@ const theme = createTheme({
     },
     primary: {
       main: '#5569ff',
-      dark: '#474c6e',
       light: '#8291ff',
       contrastText: '#FFF',
     },
