@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import dayjs from 'dayjs';
-import { Model, Document } from 'mongoose';
+import { Model, Document, LeanDocument } from 'mongoose';
 import { Users } from 'src/Domains/Users';
 import { IUserRepository } from 'src/Domains/Users/IUsers.repository';
 
@@ -12,15 +12,19 @@ export class UserRepository implements IUserRepository {
     public findUserByEmail(email: string) {
         return this.userModel
             .findOne({ email, deletedAt: { $eq: null } })
-            .select('-updatedAt -__v')
+            .select('-__v')
             .lean();
     }
 
     public findUserById(id: string, options?: Partial<Users>) {
         return this.userModel
             .findOne({ _id: id, deletedAt: { $eq: null } }, options)
-            .select('-updatedAt -password -__v')
+            .select('-password -__v')
             .lean();
+    }
+
+    public findUsers(criteria: any, select?: string, sort?: any) {
+        return this.userModel.find(criteria).select(select).sort(sort).lean();
     }
 
     public createUser(user: Partial<Users>) {
@@ -30,12 +34,8 @@ export class UserRepository implements IUserRepository {
     public updateUserById(id: string, modifier: Partial<Users>) {
         return this.userModel
             .findOneAndUpdate({ _id: id }, { $set: modifier }, { new: true })
-            .select('-updatedAt -password -__v')
+            .select('-password -__v')
             .lean();
-    }
-
-    public findUsers(criteria: any, select?: Partial<Users>) {
-        return this.userModel.find(criteria).select(select).lean();
     }
 
     public deleteUser(id: string) {
@@ -45,7 +45,7 @@ export class UserRepository implements IUserRepository {
                 { $set: { deletedAt: dayjs().format() } },
                 { new: true },
             )
-            .select('-updatedAt -password -__v')
+            .select('-password -__v')
             .lean();
     }
 }

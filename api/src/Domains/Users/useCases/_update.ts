@@ -17,7 +17,7 @@ export class UpdateUser {
 
         if (!user) throw new NotFoundException('User not found');
 
-        await this.userRepository.updateUserById(userId, toUpdate);
+        return this.userRepository.updateUserById(userId, toUpdate);
     }
 
     public async UpdateByAdmin(userId: string, toUpdate: Partial<Users>): Promise<void> {
@@ -25,6 +25,6 @@ export class UpdateUser {
 
         if (!user) throw new NotFoundException('User not found');
 
-        await this.userRepository.updateUserById(userId, toUpdate);
+        return this.userRepository.updateUserById(userId, toUpdate);
     }
 }

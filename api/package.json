@@ -1,63 +1,44 @@
 {
-  "name": "lunch",
-  "version": "0.0.1",
-  "description": "",
-  "author": "Tinphamtp",
-  "private": true,
-  "license": "UNLICENSED",
-  "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:prod": "node dist/main",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
-  },
-  "dependencies": {
-    "@nestjs/cli": "^8.1.6",
-    "@nestjs/common": "^8.2.4",
-    "@nestjs/config": "^1.1.5",
-    "@nestjs/core": "^8.2.4",
-    "@nestjs/jwt": "^8.0.0",
-    "@nestjs/mongoose": "^9.0.2",
-    "@nestjs/platform-express": "^8.2.4",
-    "dayjs": "^1.10.7",
-    "joi": "^17.5.0",
-    "mongoose": "^6.1.4",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "rxjs": "^7.5.2"
-  },
-  "devDependencies": {
-    "@nestjs/schematics": "^8.0.0",
-    "@types/express": "^4.17.13",
-    "@types/jest": "27.0.2",
-    "@types/node": "^16.0.0",
-    "prettier": "^2.3.2",
-    "source-map-support": "^0.5.20",
-    "ts-loader": "^9.2.3",
-    "ts-node": "^10.0.0",
-    "tsconfig-paths": "^3.10.1",
-    "typescript": "^4.3.5"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+    "name": "lunch",
+    "version": "0.0.1",
+    "description": "",
+    "author": "Tinphamtp",
+    "private": true,
+    "license": "UNLICENSED",
+    "scripts": {
+        "prebuild": "rimraf dist",
+        "build": "nest build",
+        "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+        "start": "nest start",
+        "start:dev": "nest start --watch",
+        "start:prod": "node dist/main"
     },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
-  }
+    "dependencies": {
+        "@nestjs/cli": "^8.1.6",
+        "@nestjs/common": "^8.2.4",
+        "@nestjs/config": "^1.1.5",
+        "@nestjs/core": "^8.2.4",
+        "@nestjs/jwt": "^8.0.0",
+        "@nestjs/mongoose": "^9.0.2",
+        "@nestjs/platform-express": "^8.2.4",
+        "dayjs": "^1.10.7",
+        "joi": "^17.5.0",
+        "mongoose": "^6.1.4",
+        "reflect-metadata": "^0.1.13",
+        "rimraf": "^3.0.2",
+        "rxjs": "^7.5.2"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^6.0.0-alpha.5",
+        "@nestjs/schematics": "^8.0.0",
+        "@types/express": "^4.17.13",
+        "@types/jest": "27.0.2",
+        "@types/node": "^16.0.0",
+        "prettier": "^2.3.2",
+        "source-map-support": "^0.5.20",
+        "ts-loader": "^9.2.3",
+        "ts-node": "^10.0.0",
+        "tsconfig-paths": "^3.10.1",
+        "typescript": "^4.3.5"
+    }
 }

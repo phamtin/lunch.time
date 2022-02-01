@@ -136,9 +136,9 @@ export default function Login() {
               type="submit"
               variant="contained"
               size="large"
-              sx={{ m: '10px 0' }}
+              sx={{ m: '14px 0 18px', transition: '0s' }}
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
             <Box
               sx={{
@@ -153,7 +153,6 @@ export default function Login() {
             </Box>
           </form>
         </Box>
-        <br />
         <br />
         <br />
         <Typography sx={{ color: theme.palette.grey[400] }}>

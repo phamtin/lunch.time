@@ -17,7 +17,8 @@ export type Admin = BasicUser & {
 };
 
 export type User = BasicUser & {
-  idToken?: string;
+  idToken: string;
+  social: 'google' | 'facebook';
 };
 
 export interface CreateAdminInput {
