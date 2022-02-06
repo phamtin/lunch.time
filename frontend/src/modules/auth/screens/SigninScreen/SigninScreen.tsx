@@ -136,9 +136,9 @@ export default function Login() {
               type="submit"
               variant="contained"
               size="large"
-              sx={{ m: '10px 0' }}
+              sx={{ m: '14px 0 18px', transition: '0s' }}
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
             <Box
               sx={{
@@ -157,7 +157,6 @@ export default function Login() {
         <Alert severity="warning" sx={{ boxShadow: 0 }}>
           Use <strong>superadmin@gmail.com</strong> and <strong>abc123</strong>
         </Alert>
-        <br />
         <br />
         <Typography sx={{ color: theme.palette.grey[400] }}>
           Lunchtime Dashboard Ⓒ 2022

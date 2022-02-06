@@ -34,7 +34,7 @@ export const useStyles = makeStyles({
   uploadIcon: {
     color: '#e6e6e6',
     padding: '12px',
-    marginLeft: '22%',
+    marginLeft: '21%',
     marginTop: '-10%',
     boxShadow: '1px 6px 10px #a6aaf5',
     backgroundColor: theme.palette.primary.main,

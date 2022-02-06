@@ -26,7 +26,6 @@ export class SignupDtoValidation implements PipeTransform {
 
     transform(value: any, metadata: ArgumentMetadata) {
         const { error, value: validatedValue } = this.schema.validate(value);
-        console.log(error?.message);
 
         if (error) throw new BadRequestException(error.message);
 

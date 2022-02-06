@@ -20,12 +20,11 @@ export class AuthService {
     ) {}
 
     /**
-     *  Admin login with Password
-     *  --------------------------
+     *  [ MANAGE ]: Admin login to Dashboard
+     *  -------------------------------------
      */
     async login(data: SigninDto) {
         const user = await this.getUser.GetByEmail(data.email);
-        console.log({ user, data });
 
         if (!user) {
             throw new NotFoundException('Admin with this email is not found');
@@ -38,7 +37,6 @@ export class AuthService {
             user.password,
             data.password,
         );
-        console.log('!isValidPassword', isValidPassword);
         if (!isValidPassword) {
             throw new BadRequestException('Invalid credentials');
         }
@@ -48,18 +46,17 @@ export class AuthService {
                 type: 'access',
                 userId: user._id,
             },
-            expiresIn: 5 * 60 * 1000,
+            expiresIn: 60 * 60,
         });
 
         user.password = undefined;
-        console.log(user);
 
         return { user, token };
     }
 
     /**
-     *  Register a new Admin.
-     *  ----------------------
+     *  [ MANAGE ]: Register a new Admin
+     *  ---------------------------------
      */
     async signup(data: SignupAdminDto) {
         const existedUser = await this.getUser.GetByEmail(data.email);
@@ -81,12 +78,10 @@ export class AuthService {
     }
 
     /**
-     *  User login with Google
-     *  -----------------------
+     *  [ APP ]: User login with Google account
+     *  -----------------------------------------
      */
     async loginWithGoogle(data: SigninSocialDto) {
-        console.log('Google sign in - START');
-
         let token: string, signedUser: Record<string, string>;
         const { email, idToken, familyName, givenName, username, avatarUrl } = data;
 
@@ -122,10 +117,9 @@ export class AuthService {
                 type: 'access',
                 userId: signedUser._id,
             },
-            expiresIn: 5 * 60 * 1000,
+            expiresIn: 60 * 60,
         });
 
-        console.log('Google sign in - SUCCESS');
         return { user: signedUser, token };
     }
 }

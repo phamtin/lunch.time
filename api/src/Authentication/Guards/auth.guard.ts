@@ -54,17 +54,19 @@ export class AuthGuard implements CanActivate {
             const currentUser = await this.getUser.GetById(userId);
             if (!currentUser) throw new ForbiddenException('User Not found...');
 
-            if (currentUser.status !== Status.active) {
-                throw new ForbiddenException('User inactive');
+            if (currentUser.deletedAt ?? currentUser.status !== Status.active) {
+                throw new ForbiddenException('Account is currently inactive.');
             }
+
             request.currentUser = currentUser;
             authorised = true;
         } catch (e) {
             if (e.message.includes('expired')) {
-                throw new ForbiddenException('Token expired');
+                throw new ForbiddenException('Session was expired');
             }
+            console.log(e.message);
 
-            throw new ForbiddenException('Token invalid');
+            throw new ForbiddenException('Session is invalid');
         }
 
         return authorised;

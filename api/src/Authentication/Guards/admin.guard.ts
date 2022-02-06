@@ -9,9 +9,9 @@ export class isAdmin implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
 
-        if (request.currentUser.role === 'admin') {
-            return true;
+        if (request.currentUser.role !== 'admin') {
+            throw new ForbiddenException("You're not a fucking Admin");
         }
-        return false;
+        return true;
     }
 }

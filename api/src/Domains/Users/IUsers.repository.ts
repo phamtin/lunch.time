@@ -3,7 +3,7 @@ import { Users } from './index';
 export interface IUserRepository {
     createUser(payload: Partial<Users>);
 
-    findUsers(criteria: any, select: Partial<Users>);
+    findUsers(criteria: any, select?: string, sort?: any);
 
     findUserById(id: string, option: Partial<Users>);
 

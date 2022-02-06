@@ -34,8 +34,11 @@ services:
     user: "1000:1000"
     depends_on:
       - database
+
   database:
     image: mongo:4.4.10
+    # ports:
+    #   - "27018:27017"
     volumes:
       - ./api/.docker/data/database:/data/db
     restart: unless-stopped
