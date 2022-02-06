@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import SearchIcon from '@mui/icons-material/Search';
 import { Button, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -20,6 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 
+import theme from '@app/styles/theme';
 import { tabs } from '@app/utils/constants/constants';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
@@ -156,8 +158,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: theme =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          bgcolor: color =>
+            alpha(color.palette.primary.main, color.palette.action.activatedOpacity),
         }),
       }}
     >
@@ -171,14 +173,29 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flex: 1,
+            border: `1px solid ${theme.palette.primary.main}`,
+            borderRadius: '8px',
+            padding: '5px 10px',
+          }}
         >
-          USER MANAGEMENT TABLE
-        </Typography>
+          <SearchIcon />
+          <input
+            type="text"
+            placeholder="Search by name, email or username..."
+            style={{
+              border: 0,
+              padding: '5px 10px',
+              flex: 1,
+              outline: 'none',
+              fontSize: '16px',
+            }}
+          />
+        </Box>
       )}
 
       {numSelected > 0 ? (
@@ -288,11 +305,6 @@ const UsersScreen = () => {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ display: 'flex', mb: '30px' }}>
         <Tabs
-          TabIndicatorProps={{
-            style: {
-              border: '1px solid red',
-            },
-          }}
           value={value}
           onChange={handleChange}
           sx={{
@@ -301,15 +313,7 @@ const UsersScreen = () => {
           }}
         >
           {tabs.map(tab => (
-            <Tab
-              label={tab.name}
-              key={tab.id}
-              sx={{
-                '.MuiTab-root': {
-                  backgroundColor: 'red',
-                },
-              }}
-            />
+            <Tab label={tab.name} key={tab.id} />
           ))}
         </Tabs>
         <Button
