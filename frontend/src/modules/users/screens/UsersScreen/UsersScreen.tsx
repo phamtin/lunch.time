@@ -1,34 +1,24 @@
 import React, { useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SearchIcon from '@mui/icons-material/Search';
 import { Button, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import { alpha } from '@mui/material/styles';
-
-import theme from '@app/styles/theme';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
-import { headCells, tabs } from '../../helpers/users.helper';
+import EnhancedTableHead from '../../components/EnhanceTableHead/EnhanceTableHead';
+import EnhancedTableToolbar from '../../components/EnhanceTableToolbar/EnhanceTableToolbar';
+import { tabs } from '../../helpers/users.helper';
 import { useCreateAdmin, useUpdateUser } from '../../hooks/users.hook';
 import {
   CreateAdminInput,
-  EnhancedTableProps,
-  EnhancedTableToolbarProps,
   UpdateUserInput,
   UsernameProps,
 } from '../../types/users.type';
@@ -64,97 +54,6 @@ const rows = [
   createData('Nougat', 360, 19.0, 9, 37.0),
   createData('Oreo', 437, 18.0, 63, 4.0),
 ];
-
-const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { onSelectAllClick, numSelected, rowCount } = props;
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
-        {headCells.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-          >
-            {headCell.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-};
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: color =>
-            alpha(color.palette.primary.main, color.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flex: 1,
-            border: `1px solid ${theme.palette.primary.main}`,
-            borderRadius: '8px',
-            padding: '5px 10px',
-          }}
-        >
-          <SearchIcon />
-          <input
-            type="text"
-            placeholder="Search by name, email or username..."
-            style={{
-              border: 0,
-              padding: '5px 10px',
-              flex: 1,
-              outline: 'none',
-              fontSize: '16px',
-            }}
-          />
-        </Box>
-      )}
-
-      {numSelected > 0 && (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
 
 const UsersScreen = () => {
   const [isOpenUserDialog, setIsOpenUserDialog] = useState<boolean>(false);
