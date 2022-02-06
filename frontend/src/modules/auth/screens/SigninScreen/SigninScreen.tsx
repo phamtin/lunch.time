@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 
@@ -154,6 +154,9 @@ export default function Login() {
           </form>
         </Box>
         <br />
+        <Alert severity="warning" sx={{ boxShadow: 0 }}>
+          Use <strong>superadmin@gmail.com</strong> and <strong>abc123</strong>
+        </Alert>
         <br />
         <br />
         <Typography sx={{ color: theme.palette.grey[400] }}>

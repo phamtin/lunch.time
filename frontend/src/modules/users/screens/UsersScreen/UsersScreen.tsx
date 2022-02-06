@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Button } from '@mui/material';
+import { Button, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
@@ -19,6 +19,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
+
+import { tabs } from '@app/utils/constants/constants';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
 import { useCreateAdmin, useUpdateUser } from '../../hooks/users.hook';
@@ -233,6 +235,7 @@ const UsersScreen = () => {
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [value, setValue] = React.useState(0);
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -241,6 +244,10 @@ const UsersScreen = () => {
       return;
     }
     setSelected([]);
+  };
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
@@ -279,15 +286,42 @@ const UsersScreen = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Button
-        sx={{ '.MuiButton-startIcon': { m: 0.4 } }}
-        variant="contained"
-        startIcon={<AddIcon />}
-        disabled={!!isLoadingAdmin}
-        onClick={handleOpenDialog}
-      >
-        Create Admin
-      </Button>
+      <Box sx={{ display: 'flex', mb: '30px' }}>
+        <Tabs
+          TabIndicatorProps={{
+            style: {
+              border: '1px solid red',
+            },
+          }}
+          value={value}
+          onChange={handleChange}
+          sx={{
+            transition: '0.4s',
+            flex: 1,
+          }}
+        >
+          {tabs.map(tab => (
+            <Tab
+              label={tab.name}
+              key={tab.id}
+              sx={{
+                '.MuiTab-root': {
+                  backgroundColor: 'red',
+                },
+              }}
+            />
+          ))}
+        </Tabs>
+        <Button
+          sx={{ '.MuiButton-startIcon': { m: 0.4 } }}
+          variant="contained"
+          startIcon={<AddIcon />}
+          disabled={!!isLoadingAdmin}
+          onClick={handleOpenDialog}
+        >
+          Create Admin
+        </Button>
+      </Box>
 
       {isOpenUserDialog && (
         <CreateUpdateUserDialog
