@@ -1,3 +1,5 @@
+import { HeadCell } from '../types/users.type';
+
 export const renderFunctionalityText = (mode: 'create' | 'update') => {
   if (mode === 'create') {
     //  Create new Admin
@@ -15,3 +17,56 @@ export const renderFunctionalityText = (mode: 'create' | 'update') => {
     buttonText: 'Update user',
   };
 };
+
+export const headCells: readonly HeadCell[] = [
+  {
+    id: 'username',
+    numeric: false,
+    disablePadding: true,
+    label: 'USERNAME',
+  },
+  {
+    id: 'email',
+    numeric: true,
+    disablePadding: false,
+    label: 'EMAIL',
+  },
+  {
+    id: 'role',
+    numeric: true,
+    disablePadding: false,
+    label: 'ROLE',
+  },
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'STATUS',
+  },
+  {
+    id: 'actions',
+    numeric: true,
+    disablePadding: false,
+    label: 'ACTIONS',
+  },
+];
+
+export const tabs = [
+  {
+    id: 1,
+    name: 'All Users',
+  },
+  {
+    id: 2,
+    name: 'Customers',
+    url: '/',
+  },
+  {
+    id: 3,
+    name: 'Adminstrators',
+  },
+  {
+    id: 4,
+    name: 'Subcribers',
+  },
+];

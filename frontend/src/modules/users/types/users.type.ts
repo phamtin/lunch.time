@@ -40,3 +40,28 @@ export interface UpdateUserInput {
   phone?: string;
   avatarUrl?: string;
 }
+
+export interface UsernameProps {
+  username: string;
+  email: number;
+  role: number;
+  status: number;
+  actions: number;
+}
+
+export interface EnhancedTableProps {
+  numSelected: number;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  rowCount: number;
+}
+
+export interface EnhancedTableToolbarProps {
+  numSelected: number;
+}
+
+export interface HeadCell {
+  disablePadding: boolean;
+  id: keyof UsernameProps;
+  label: string;
+  numeric: boolean;
+}

@@ -53,23 +53,3 @@ export const navs = [
     icon: <AccountTree />,
   },
 ];
-
-export const tabs = [
-  {
-    id: 1,
-    name: 'All Users',
-  },
-  {
-    id: 2,
-    name: 'Customers',
-    url: '/',
-  },
-  {
-    id: 3,
-    name: 'Adminstrators',
-  },
-  {
-    id: 4,
-    name: 'Subcribers',
-  },
-];

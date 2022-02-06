@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -22,36 +21,17 @@ import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 
 import theme from '@app/styles/theme';
-import { tabs } from '@app/utils/constants/constants';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
+import { headCells, tabs } from '../../helpers/users.helper';
 import { useCreateAdmin, useUpdateUser } from '../../hooks/users.hook';
-import { CreateAdminInput, UpdateUserInput } from '../../types/users.type';
-
-interface UsernameProps {
-  username: string;
-  email: number;
-  role: number;
-  status: number;
-  actions: number;
-}
-
-interface EnhancedTableProps {
-  numSelected: number;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  rowCount: number;
-}
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof UsernameProps;
-  label: string;
-  numeric: boolean;
-}
+import {
+  CreateAdminInput,
+  EnhancedTableProps,
+  EnhancedTableToolbarProps,
+  UpdateUserInput,
+  UsernameProps,
+} from '../../types/users.type';
 
 const createData = (
   username: string,
@@ -83,39 +63,6 @@ const rows = [
   createData('Marshmallow', 318, 0, 81, 2.0),
   createData('Nougat', 360, 19.0, 9, 37.0),
   createData('Oreo', 437, 18.0, 63, 4.0),
-];
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'username',
-    numeric: false,
-    disablePadding: true,
-    label: 'USERNAME',
-  },
-  {
-    id: 'email',
-    numeric: true,
-    disablePadding: false,
-    label: 'EMAIL',
-  },
-  {
-    id: 'role',
-    numeric: true,
-    disablePadding: false,
-    label: 'ROLE',
-  },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: 'STATUS',
-  },
-  {
-    id: 'actions',
-    numeric: true,
-    disablePadding: false,
-    label: 'ACTIONS',
-  },
 ];
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {
@@ -198,16 +145,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Box>
       )}
 
-      {numSelected > 0 ? (
+      {numSelected > 0 && (
         <Tooltip title="Delete">
           <IconButton>
             <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
           </IconButton>
         </Tooltip>
       )}
@@ -337,7 +278,7 @@ const UsersScreen = () => {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="medium">
+          <Table aria-labelledby="tableTitle" size="medium">
             <EnhancedTableHead
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
