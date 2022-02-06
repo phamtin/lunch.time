@@ -25,9 +25,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./api:/app
-      - /app/node_modules
+    # volumes:
+    #   - ./api:/app
+    #   - /app/node_modules
     restart: unless-stopped
     env_file:
       - ./api/.env
@@ -37,8 +37,9 @@ services:
 
   database:
     image: mongo:4.4.10
-    # ports:
-    #   - "27018:27017"
+    ports:
+      #   - "27018:27017"
+      - "27017:27017"
     volumes:
       - ./api/.docker/data/database:/data/db
     restart: unless-stopped

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { UserRepositoryModule } from 'src/Persistence/Users/userRepository.module';
+import { UserRepositoryModule } from 'src/Persistence/Users/user.repository.module';
 import { UserController } from 'src/API/Users/users.controller';
 import { UpdateUser } from './useCases/_update';
 import { GetUser } from './useCases/_read';

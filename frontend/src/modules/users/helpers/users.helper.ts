@@ -1,7 +1,7 @@
-import { HeadCell } from '../types/users.type';
+import { HeadCell, User } from '../types/users.type';
 
-export const renderFunctionalityText = (mode: 'create' | 'update') => {
-  if (mode === 'create') {
+export const renderFunctionalityText = (user: User | undefined) => {
+  if (!user) {
     //  Create new Admin
     return {
       title: 'Create new lunchtime Admin',

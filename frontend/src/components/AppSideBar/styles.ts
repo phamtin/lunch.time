@@ -45,6 +45,7 @@ export const useStyles = makeStyles({
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: '12px',
+      marginBottom: '10px',
       '&:hover': {
         backgroundColor: 'rgba(255, 255, 255, 0.15)',
         color: '#fff',
@@ -66,12 +67,8 @@ export const useStyles = makeStyles({
     marginRight: '-2px!important',
     '& .MuiSvgIcon-root': {
       transition: '0.3s',
-      fontSize: '25px',
       justifyContent: 'center',
-      marginLeft: '16px',
-    },
-    '& .MuiListItem-root': {
-      marginBottom: '14px!important',
+      marginLeft: '18.5px',
     },
   },
   smallWidthContainer: {

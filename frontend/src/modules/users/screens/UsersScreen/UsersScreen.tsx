@@ -166,29 +166,31 @@ const UsersScreen = () => {
 
   const onCloseCreateUserDialog = () => setIsOpenUserDialog(false);
 
-  const onSubmitUser = (
+  const onSubmitUser = async (
     mode: 'create' | 'update',
     data: CreateAdminInput & UpdateUserInput,
     userId?: string
   ) => {
-    if (mode === 'create') mutateAdmin({ data });
+    if (mode === 'create') await mutateAdmin({ data });
 
-    if (mode === 'update' && userId) mutateUser({ data, userId });
+    if (mode === 'update' && userId) await mutateUser({ data, userId });
 
     setIsOpenUserDialog(false);
   };
 
-  // const exampleUser = {
-  //   _id: '609269995b2e888426d019ef',
-  //   email: 'tinpham@gmail.com',
-  //   role: 'user',
-  //   username: 'tinphamtp',
-  //   familyName: 'Pham',
-  //   givenName: 'Tin',
-  //   phone: '0763520041',
-  //   avatarUrl: 'https://unsplash.com/wow',
-  //   addressLine: 'Danang',
-  // };
+  const exampleUser = {
+    _id: '609269995b2e888426d019ef',
+    email: 'tinpham@gmail.com',
+    idToken: 'idtoken',
+    role: 'user',
+    username: 'tinphamtp',
+    familyName: 'Pham',
+    givenName: 'Tin',
+    social: 'google',
+    phone: '0763520041',
+    avatarUrl: 'https://unsplash.com/wow',
+    addressLine: 'Danang',
+  };
 
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -243,34 +245,26 @@ const UsersScreen = () => {
     currentPage > 0 ? Math.max(0, (1 + currentPage) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ display: 'flex', mb: '30px' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          sx={{
-            transition: '0.4s',
-            flex: 1,
-          }}
-        >
-          {tabs.map(tab => (
-            <Tab label={tab.name} key={tab.id} />
-          ))}
-        </Tabs>
-        <Button
-          sx={{ '.MuiButton-startIcon': { m: 0.4 } }}
-          variant="contained"
-          startIcon={<AddIcon />}
-          disabled={!!isLoadingAdmin}
-          onClick={handleOpenDialog}
-        >
-          Create Admin
-        </Button>
-      </Box>
+    <div>
+      <h3>
+        <b>USERS</b>
+      </h3>
+      <h5>Welcome Users </h5>
+
+      <Button
+        sx={{ '.MuiButton-startIcon': { m: 0 } }}
+        variant="contained"
+        size="large"
+        startIcon={<AddIcon />}
+        disabled={!!isLoadingAdmin}
+        onClick={handleOpenDialog}
+      >
+        Create Admin
+      </Button>
 
       {isOpenUserDialog && (
         <CreateUpdateUserDialog
-          mode="create"
+          user={exampleUser}
           onClose={onCloseCreateUserDialog}
           onSubmit={onSubmitUser}
         />
@@ -350,7 +344,7 @@ const UsersScreen = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Box>
+    </div>
   );
 };
 

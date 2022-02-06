@@ -29,7 +29,6 @@ import { useStyles } from './create-user-dialog.style';
  *    ------------------------------------------------------
  */
 interface CreateUpdateUserDialogProps {
-  mode: 'create' | 'update';
   user?: User;
   onSubmit: (
     mode: 'create' | 'update',
@@ -40,14 +39,13 @@ interface CreateUpdateUserDialogProps {
 }
 
 const CreateUpdateUserDialog = ({
-  mode,
   user,
   onSubmit,
   onClose,
 }: CreateUpdateUserDialogProps) => {
   const classes = useStyles();
 
-  const isCreateAdmin = mode === 'create' && !user;
+  const isCreateAdmin = !user;
 
   const {
     control,
@@ -68,19 +66,19 @@ const CreateUpdateUserDialog = ({
   });
 
   const onHandleSubmit = (data: CreateAdminInput & UpdateUserInput) => {
-    if (mode === 'update') {
-      return onSubmit(mode, data, user?._id);
+    if (user && Object.keys(user).length) {
+      return onSubmit('update', data, user?._id); //  Update User
     }
-    return onSubmit(mode, data);
+    return onSubmit('create', data); //  Create Admin
   };
 
   return (
-    <Dialog className={classes.dialogWrapper} open fullWidth maxWidth="md">
+    <Dialog className={classes.dialogWrapper} open maxWidth="md">
       <form onSubmit={handleSubmit(onHandleSubmit)}>
         <div className={classes.header}>
-          <DialogTitle>{renderFunctionalityText(mode).title}</DialogTitle>
+          <DialogTitle>{renderFunctionalityText(user).title}</DialogTitle>
           <DialogContentText>
-            {renderFunctionalityText(mode).subtitle}
+            {renderFunctionalityText(user).subtitle}
           </DialogContentText>
         </div>
         <div className={classes.infoArea}>
@@ -240,7 +238,7 @@ const CreateUpdateUserDialog = ({
         <DialogActions className={classes.footer}>
           <Button onClick={onClose}>Cancel</Button>&nbsp;
           <Button type="submit" variant="contained">
-            {renderFunctionalityText(mode).buttonText}
+            {renderFunctionalityText(user).buttonText}
           </Button>
         </DialogActions>
       </form>
