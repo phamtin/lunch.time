@@ -81,17 +81,17 @@ const UsersScreen = () => {
     setIsOpenUserDialog(false);
   };
 
-  // const exampleUser = {
-  //   _id: '609269995b2e888426d019ef',
-  //   email: 'tinpham@gmail.com',
-  //   role: 'user',
-  //   username: 'tinphamtp',
-  //   familyName: 'Pham',
-  //   givenName: 'Tin',
-  //   phone: '0763520041',
-  //   avatarUrl: 'https://unsplash.com/wow',
-  //   addressLine: 'Danang',
-  // };
+  const exampleUser = {
+    _id: '609269995b2e888426d019ef',
+    email: 'tinpham@gmail.com',
+    role: 'user',
+    username: 'tinphamtp',
+    familyName: 'Pham',
+    givenName: 'Tin',
+    phone: '0763520041',
+    avatarUrl: 'https://unsplash.com/wow',
+    addressLine: 'Danang',
+  };
 
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
