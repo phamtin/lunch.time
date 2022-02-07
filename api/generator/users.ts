@@ -1,4 +1,5 @@
-const admin = {
+export const admin = {
+    s:1
     // email: `${faker.name.firstName().toLowerCase()}-admin.${faker.random.number(1)}@gmail.com`,
     // username: faker.name.firstName() + ' ' + faker.name.lastName(),
     // familyName: faker.name.lastName(),
@@ -12,7 +13,8 @@ const admin = {
     // status: 'active',
 };
 
-const user = {
+export const user = {
+    s:1
     // email: `${faker.name.lastName().toLowerCase()}.${faker.name
     //     .firstName()
     //     .toLowerCase()}@gmail.com`,

@@ -14,6 +14,10 @@ COPY . .
 
 EXPOSE 8000
 
+RUN chown -R node /app/node_modules
+
+USER node
+
 CMD [ "npm", "run", "start:dev" ]
 
 
@@ -27,17 +31,15 @@ CMD [ "npm", "run", "start:dev" ]
 
 # RUN npm install -g pm2
 
-# COPY ./package.json ./
+# COPY ["package.json", "package-lock.json*", "./"]
 
 # RUN npm install --production --silent
 
 # COPY . .
 
-# USER node
-
 # # ----- If UID:GID is 1000:1000 ------
-# # USER node
-# # RUN chown -R node:node /app
+# USER node
+# RUN chown -R node:node /app
 
 # # -------------- Else ----------------
 # # RUN addgroup -g 20 appgroup
