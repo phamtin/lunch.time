@@ -84,10 +84,12 @@ const UsersScreen = () => {
   const exampleUser = {
     _id: '609269995b2e888426d019ef',
     email: 'tinpham@gmail.com',
+    idToken: 'idtoken',
     role: 'user',
     username: 'tinphamtp',
     familyName: 'Pham',
     givenName: 'Tin',
+    social: 'google',
     phone: '0763520041',
     avatarUrl: 'https://unsplash.com/wow',
     addressLine: 'Danang',
