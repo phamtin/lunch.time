@@ -5,9 +5,9 @@ import { AppModule } from './app.module';
 
 let app;
 async function bootstrap() {
-    console.log('==============================================\n');
+    console.log('=============================================\n');
     console.log('== Lunchtime API initialized successfully...\n');
-    console.log('==============================================');
+    console.log('=============================================');
 
     app = await NestFactory.create(AppModule);
 

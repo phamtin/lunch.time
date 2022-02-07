@@ -37,9 +37,8 @@ export class AuthService {
             user.password,
             data.password,
         );
-        if (!isValidPassword) {
-            throw new BadRequestException('Invalid credentials');
-        }
+
+        if (!isValidPassword) throw new BadRequestException('Invalid credentials');
 
         const token = this.cryptoService.generateJWT({
             data: {

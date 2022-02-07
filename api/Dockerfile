@@ -14,10 +14,6 @@ COPY . .
 
 EXPOSE 8000
 
-RUN chown -R node /app/dist
-
-USER node
-
 CMD [ "npm", "run", "start:dev" ]
 
 
