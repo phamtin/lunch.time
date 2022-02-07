@@ -8,8 +8,8 @@ services:
     env_file:
       - ./frontend/.env
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./frontend:/app2
+      - /app2/node_modules
     restart: unless-stopped
     ports:
       - "3000:80"
@@ -26,8 +26,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./api:/app
-      - /app/node_modules
+      - ./api:/app2
+      - /app2/node_modules
     restart: unless-stopped
     env_file:
       - ./api/.env

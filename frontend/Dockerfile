@@ -4,7 +4,7 @@
 
 # FROM node:14-alpine as node
 
-# WORKDIR /app
+# WORKDIR /app2
 
 # COPY package.json ./
 
@@ -24,7 +24,7 @@
 
 FROM node:14-alpine as node
 
-WORKDIR /app
+WORKDIR /app2
 
 COPY . .
 
@@ -38,6 +38,6 @@ FROM nginx:1.21.5 as production-stage
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=node /app/build /usr/share/nginx/html
+COPY --from=node /app2/build /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]
