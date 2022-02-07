@@ -14,7 +14,7 @@ COPY . .
 
 EXPOSE 8000
 
-RUN chown -R node /app/node_modules
+RUN chown -R node /app/dist
 
 USER node
 

@@ -25,9 +25,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    # volumes:
-    #   - ./api:/app
-    #   - /app/node_modules
+    volumes:
+      - ./api:/app
+      - /app/node_modules
     restart: unless-stopped
     env_file:
       - ./api/.env

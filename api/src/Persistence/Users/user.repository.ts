@@ -64,11 +64,7 @@ export class UserRepository implements IUserRepository {
                 this.userModel.count(criteria),
             ]);
             return {
-                info: {
-                    page: _page,
-                    length: data.length,
-                    total: count,
-                },
+                info: { current: _page, length: data.length, total: count },
                 data,
             };
         }
