@@ -52,7 +52,8 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
             height: 'maxContent',
             mt: APP_BAR_HEIGHT,
             ml: isOpenDrawerSidebar ? APP_SIDEBAR_WIDTH : APP_SIDEBAR_WIDTH_SMALL,
-            p: theme.spacing(3.5),
+            px: theme.spacing(4),
+            py: theme.spacing(4.5),
             backgroundColor: 'rgb(242, 245, 249)',
             transition: '0.3s',
           }}

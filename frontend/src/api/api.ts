@@ -5,13 +5,13 @@ import { getToken, removeCurrentUser, removeToken } from '@app/utils/common/stor
 import { trimValue, toCamelCase } from '../utils/helpers/transform';
 
 const authInterceptor = (request: AxiosRequestConfig) => {
-  const requestConfig = trimValue(request);
+  const requestConfig = trimValue(request) as AxiosRequestConfig;
   requestConfig.params = toCamelCase(requestConfig.params);
   requestConfig.data = toCamelCase(requestConfig.data);
 
   const accessToken = getToken();
 
-  if (accessToken) {
+  if (requestConfig.headers && accessToken) {
     requestConfig.headers.authorization = `API ${accessToken}`;
   }
 

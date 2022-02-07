@@ -22,9 +22,9 @@ export class AuthGuard implements CanActivate {
         let settings = Object.keys(cors).map((key) => {
             return [key, cors[key]];
         });
-        response.header('Access-Control-Allow-Origin', 'http://localhost:3000');
         response.header(
             'Access-Control-Allow-Origin',
+            'http://localhost:3000',
             'https://frontend-phamtin.cloud.okteto.net',
         );
 
@@ -32,18 +32,12 @@ export class AuthGuard implements CanActivate {
             response.header(settings[i][0], settings[i][1]);
         }
 
-        if ('OPTIONS' == request.method) {
-            response.sendStatus(200);
-        } else {
-            true;
-        }
-
         const authorization = request.headers['authorization'];
         if (!authorization) throw new ForbiddenException('Not authorised');
 
         const [type, token] = authorization.split(' ');
 
-        if (!authorization || type !== 'API') {
+        if (type !== 'API') {
             throw new ForbiddenException('Not authorised');
         }
 

@@ -1,9 +1,11 @@
 import { Users } from './index';
 
 export interface IUserRepository {
+    count(criteria: Partial<Users>);
+
     createUser(payload: Partial<Users>);
 
-    findUsers(criteria: any, select?: string, sort?: any);
+    findUsers(payload: any);
 
     findUserById(id: string, option: Partial<Users>);
 

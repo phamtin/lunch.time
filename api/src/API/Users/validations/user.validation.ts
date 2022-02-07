@@ -13,6 +13,11 @@ export class AdminGetUsersValidation implements PipeTransform {
     constructor() {
         this.schema = Joi.object({
             q: Joi.string(),
+            sort: Joi.string(),
+            direction: Joi.string(),
+            usePage: Joi.boolean(),
+            page: Joi.number().integer().min(1),
+            limit: Joi.number().integer().min(1),
         });
     }
 

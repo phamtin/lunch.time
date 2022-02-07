@@ -64,7 +64,6 @@ export class SigninSocialDtoValidation implements PipeTransform {
             familyName: Joi.string().trim().min(1).max(32),
             givenName: Joi.string().trim().min(1).max(32),
             username: Joi.string().trim().min(2).max(64).required(),
-            photo: Joi.string().trim(),
             avatarUrl: Joi.string().trim(),
         });
     }

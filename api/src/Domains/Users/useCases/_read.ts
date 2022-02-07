@@ -13,23 +13,23 @@ export class GetUser {
      *  ---------------------------------
      */
     public async GetUsersByAdmin(query: Record<string, string>): Promise<any> {
-        const { q } = query;
+        const { q, sort, direction, page, limit, usePage } = query;
 
-        let criteria = {};
+        let payload = {};
 
-        if (q) {
-            const pattern = new RegExp(q);
-            criteria = {
-                $or: [
-                    { email: { $regex: pattern, $options: 'i' } },
-                    { username: { $regex: pattern, $options: 'i' } },
-                    { givenName: { $regex: pattern, $options: 'i' } },
-                    { familyName: { $regex: pattern, $options: 'i' } },
-                ],
-            };
+        if (q) payload['q'] = q;
+
+        if (sort && ['asc', 'desc'].includes(direction)) {
+            payload['sort'] = { [sort]: direction };
         }
 
-        return this.userRepository.findUsers(criteria, '-password -__v');
+        if (usePage) {
+            payload['usePage'] = true;
+            payload['page'] = page;
+            payload['limit'] = limit;
+        }
+
+        return this.userRepository.findUsers(payload);
     }
 
     /**
