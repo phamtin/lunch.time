@@ -46,7 +46,7 @@ export interface UsernameProps {
   email: number;
   role: number;
   status: number;
-  actions: number;
+  actions: string | undefined;
 }
 
 export interface EnhancedTableProps {

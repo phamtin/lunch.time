@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
-import { Button, Tab, Tabs } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { Button, IconButton, Tab, Tabs } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
@@ -11,6 +13,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+
+import theme from '@app/styles/theme';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
 import EnhancedTableHead from '../../components/EnhanceTableHead/EnhanceTableHead';
@@ -28,7 +32,7 @@ const createData = (
   email: number,
   role: number,
   status: number,
-  actions: number
+  actions?: string
 ): UsernameProps => {
   return {
     username,
@@ -40,19 +44,19 @@ const createData = (
 };
 
 const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
+  createData('Cupcake', 305, 3.7, 67),
+  createData('Donut', 452, 25.0, 51),
+  createData('Eclair', 262, 16.0, 24),
+  createData('Frozen yoghurt', 159, 6.0, 24),
+  createData('Gingerbread', 356, 16.0, 49),
+  createData('Honeycomb', 408, 3.2, 87),
+  createData('Ice cream sandwich', 237, 37, 4.3),
+  createData('Jelly Bean', 375, 0.0, 94),
+  createData('KitKat', 518, 26.0, 65),
+  createData('Lollipop', 392, 0.2, 98),
+  createData('Marshmallow', 318, 0, 81),
+  createData('Nougat', 360, 19.0, 9),
+  createData('Oreo', 437, 18.0, 63),
 ];
 
 const UsersScreen = () => {
@@ -223,7 +227,20 @@ const UsersScreen = () => {
                       <TableCell align="right">{row.email}</TableCell>
                       <TableCell align="right">{row.role}</TableCell>
                       <TableCell align="right">{row.status}</TableCell>
-                      <TableCell align="right">{row.actions}</TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{
+                          '.MuiButtonBase-root': { p: 0 },
+                          '.MuiSvgIcon-root': { color: theme.palette.primary.main },
+                        }}
+                      >
+                        <IconButton sx={{ mr: '8px' }}>
+                          <OpenInNewIcon />
+                        </IconButton>
+                        <IconButton>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
