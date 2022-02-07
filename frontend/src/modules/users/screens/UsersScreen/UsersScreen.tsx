@@ -224,7 +224,7 @@ const UsersScreen = () => {
                       <TableCell
                         align="right"
                         sx={{
-                          '.MuiButtonBase-root': { p: 0 },
+                          '.MuiButtonBase-root': { padding: 0 },
                           '.MuiSvgIcon-root': { color: theme.palette.primary.main },
                         }}
                       >
