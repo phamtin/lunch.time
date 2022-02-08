@@ -13,6 +13,7 @@ export const useStyles = makeStyles({
     border: `1px solid ${theme.palette.primary.main}`,
     borderRadius: '8px',
     padding: '5px 10px',
+    marginRight: '9px',
   },
   input: {
     border: 0,

@@ -4,7 +4,7 @@
 
 FROM node:14-alpine AS node
 
-WORKDIR /app2
+WORKDIR /app
 
 COPY package.json .
 
@@ -25,7 +25,7 @@ CMD [ "npm", "run", "start:dev" ]
 
 # FROM node:14-alpine AS node
 
-# WORKDIR /app2
+# WORKDIR /app
 
 # RUN npm install -g pm2
 
@@ -37,14 +37,14 @@ CMD [ "npm", "run", "start:dev" ]
 
 # # ----- If UID:GID is 1000:1000 ------
 # USER node
-# RUN chown -R node:node /app2
+# RUN chown -R node:node /app
 
 # # -------------- Else ----------------
 # # RUN addgroup -g 20 appgroup
 
 # # RUN adduser -D -u 501 appuser -G appgroup
 
-# # RUN chown -R appuser:appgroup /app2
+# # RUN chown -R appuser:appgroup /app
 
 # # USER appuser
 # # ------------------------------------

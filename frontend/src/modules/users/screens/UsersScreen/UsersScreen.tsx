@@ -69,14 +69,14 @@ const UsersScreen = () => {
 
   const onCloseCreateUserDialog = () => setIsOpenUserDialog(false);
 
-  const onSubmitUser = async (
+  const onSubmitUser = (
     mode: 'create' | 'update',
     data: CreateAdminInput & UpdateUserInput,
     userId?: string
   ) => {
-    if (mode === 'create') await mutateAdmin({ data });
+    if (mode === 'create') mutateAdmin({ data });
 
-    if (mode === 'update' && userId) await mutateUser({ data, userId });
+    if (mode === 'update' && userId) mutateUser({ data, userId });
 
     setIsOpenUserDialog(false);
   };
@@ -100,8 +100,8 @@ const UsersScreen = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [value, setValue] = React.useState(0);
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
+  const handleSelectAllClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
       const newSelecteds = rows.map(n => n.username);
       setSelected(newSelecteds);
       return;
@@ -109,11 +109,11 @@ const UsersScreen = () => {
     setSelected([]);
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (e: React.MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: string[] = [];
 
@@ -133,12 +133,12 @@ const UsersScreen = () => {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: unknown, page: number) => {
+  const handleChangePage = (e: unknown, page: number) => {
     setCurrentPage(page);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(0);
   };
 
@@ -148,22 +148,22 @@ const UsersScreen = () => {
     currentPage > 0 ? Math.max(0, (1 + currentPage) * rowsPerPage - rows.length) : 0;
 
   return (
-    <div>
-      <h3>
-        <b>USERS</b>
-      </h3>
-      <h5>Welcome Users </h5>
-
-      <Button
-        sx={{ '.MuiButton-startIcon': { m: 0 } }}
-        variant="contained"
-        size="large"
-        startIcon={<AddIcon />}
-        disabled={!!isLoadingAdmin}
-        onClick={handleOpenDialog}
-      >
-        Create Admin
-      </Button>
+    <>
+      <Box sx={{ display: 'flex', mb: '30px' }}>
+        <Tabs value={value} onChange={handleChange} sx={{ flex: 1 }}>
+          {tabs.map(tab => (
+            <Tab label={tab.name} key={tab.id} />
+          ))}
+        </Tabs>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          disabled={!!isLoadingAdmin}
+          onClick={handleOpenDialog}
+        >
+          Create Admin
+        </Button>
+      </Box>
 
       {isOpenUserDialog && (
         <CreateUpdateUserDialog
@@ -172,7 +172,7 @@ const UsersScreen = () => {
           onSubmit={onSubmitUser}
         />
       )}
-      <Paper sx={{ width: '100%', mb: 2 }}>
+      <Paper sx={{ width: '100%' }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table aria-labelledby="tableTitle" size="medium">
@@ -190,7 +190,6 @@ const UsersScreen = () => {
                 .map((row: UsernameProps, index: number) => {
                   const isItemSelected = isSelected(row.username);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
@@ -205,9 +204,7 @@ const UsersScreen = () => {
                         <Checkbox
                           color="primary"
                           checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
+                          inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
                       <TableCell
@@ -224,8 +221,8 @@ const UsersScreen = () => {
                       <TableCell
                         align="right"
                         sx={{
-                          '.MuiButtonBase-root': { padding: 0 },
-                          '.MuiSvgIcon-root': { color: theme.palette.primary.main },
+                          '.MuiButtonBase-root': { p: 0 },
+                          '.MuiSvgIcon-root': { color: theme.palette.primary.dark },
                         }}
                       >
                         <IconButton sx={{ mr: '8px' }}>
@@ -239,11 +236,7 @@ const UsersScreen = () => {
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
+                <TableRow sx={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -260,7 +253,7 @@ const UsersScreen = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </div>
+    </>
   );
 };
 
