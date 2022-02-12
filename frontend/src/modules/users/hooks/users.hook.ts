@@ -1,8 +1,8 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 
 import { toastify } from '@app/components/Snackbar/SnackBar';
 
-import { createAdminApi, updateUserApi } from '../api/users.api';
+import { createAdminApi, getUsersApi, updateUserApi } from '../api/users.api';
 
 export const useCreateAdmin = () => {
   return useMutation(createAdminApi, {
@@ -25,3 +25,15 @@ export const useUpdateUser = () => {
     },
   });
 };
+
+// export const useGetUsers = () => {
+//   return useQuery(['users/useGetUsers'], getUsersApi, {
+//     enabled: false,
+//     onSuccess: () => {
+//       toastify('success', 'Successfully');
+//     },
+//     onError: err => {
+//       toastify('error', err as string);
+//     },
+//   });
+// };

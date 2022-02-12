@@ -137,11 +137,6 @@ const UsersScreen = () => {
     setCurrentPage(page);
   };
 
-  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(0);
-  };
-
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   const emptyRows =
@@ -244,13 +239,11 @@ const UsersScreen = () => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={currentPage}
           onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
     </>

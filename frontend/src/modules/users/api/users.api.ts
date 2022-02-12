@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 import { api } from '@app/api/api';
 
 import { UsersEndpoints } from '../constants/users.endpoint';
@@ -17,4 +19,12 @@ export const updateUserApi = ({
 }) => {
   const url = UsersEndpoints.UPDATE_USER.replace(':id', userId);
   return api.patch(url, data);
+};
+
+export const getUsersApi = ({ params }: { params: any }) => {
+  const url = UsersEndpoints.GET_USERS;
+  return api.get(url, {
+    params,
+    paramsSerializer: requestParams => qs.stringify(requestParams),
+  });
 };
