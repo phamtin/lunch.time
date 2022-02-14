@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, MouseEvent, SyntheticEvent, ChangeEvent } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,56 +14,35 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
+import Spinner from '@app/components/Spinner/Spinner';
 import theme from '@app/styles/theme';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
 import EnhancedTableHead from '../../components/EnhanceTableHead/EnhanceTableHead';
 import EnhancedTableToolbar from '../../components/EnhanceTableToolbar/EnhanceTableToolbar';
+import { ROW_PER_PAGE } from '../../constants/users.constant';
 import { tabs } from '../../helpers/users.helper';
-import { useCreateAdmin, useUpdateUser } from '../../hooks/users.hook';
-import {
-  CreateAdminInput,
-  UpdateUserInput,
-  UsernameProps,
-} from '../../types/users.type';
-
-const createData = (
-  username: string,
-  email: number,
-  role: number,
-  status: number,
-  actions?: string
-): UsernameProps => {
-  return {
-    username,
-    email,
-    role,
-    status,
-    actions,
-  };
-};
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67),
-  createData('Donut', 452, 25.0, 51),
-  createData('Eclair', 262, 16.0, 24),
-  createData('Frozen yoghurt', 159, 6.0, 24),
-  createData('Gingerbread', 356, 16.0, 49),
-  createData('Honeycomb', 408, 3.2, 87),
-  createData('Ice cream sandwich', 237, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94),
-  createData('KitKat', 518, 26.0, 65),
-  createData('Lollipop', 392, 0.2, 98),
-  createData('Marshmallow', 318, 0, 81),
-  createData('Nougat', 360, 19.0, 9),
-  createData('Oreo', 437, 18.0, 63),
-];
+import { useCreateAdmin, useGetUsers, useUpdateUser } from '../../hooks/users.hook';
+import { CreateAdminInput, UpdateUserInput, User } from '../../types/users.type';
 
 const UsersScreen = () => {
   const [isOpenUserDialog, setIsOpenUserDialog] = useState<boolean>(false);
+  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [value, setValue] = useState(0);
+  const [search, setSearch] = useState<string>('');
+  const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
 
   const { mutate: mutateAdmin, isLoading: isLoadingAdmin } = useCreateAdmin();
   const { mutate: mutateUser } = useUpdateUser();
+  const { data: dataUsers, isLoading: isLoadingGetUsers } = useGetUsers({
+    q: search || undefined,
+    usePage: true,
+    page: currentPage + 1 ? currentPage + 1 : 1,
+    limit: ROW_PER_PAGE,
+  });
+  const users = dataUsers?.data.data;
+  const info = dataUsers?.data.info;
 
   const handleOpenDialog = () => setIsOpenUserDialog(prev => !prev);
 
@@ -81,39 +60,20 @@ const UsersScreen = () => {
     setIsOpenUserDialog(false);
   };
 
-  const exampleUser = {
-    _id: '609269995b2e888426d019ef',
-    email: 'tinpham@gmail.com',
-    idToken: 'idtoken',
-    role: 'user',
-    username: 'tinphamtp',
-    familyName: 'Pham',
-    givenName: 'Tin',
-    social: 'google',
-    phone: '0763520041',
-    avatarUrl: 'https://unsplash.com/wow',
-    addressLine: 'Danang',
-  };
-
-  const [selected, setSelected] = useState<readonly string[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [value, setValue] = React.useState(0);
-
-  const handleSelectAllClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectAllClick = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      const newSelecteds = rows.map(n => n.username);
+      const newSelecteds = users?.map((n: any) => n.username);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (e: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const handleClick = (e: React.MouseEvent<unknown>, name: string) => {
+  const handleClick = (e: MouseEvent<unknown>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: string[] = [];
 
@@ -129,18 +89,16 @@ const UsersScreen = () => {
         selected.slice(selectedIndex + 1)
       );
     }
-
     setSelected(newSelected);
   };
 
-  const handleChangePage = (e: unknown, page: number) => {
-    setCurrentPage(page);
+  const handleChangePage = (e: unknown, selectedPage: number) => {
+    setCurrentPage(selectedPage);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  const emptyRows =
-    currentPage > 0 ? Math.max(0, (1 + currentPage) * rowsPerPage - rows.length) : 0;
+  // if (!dataUsers) return null;
 
   return (
     <>
@@ -162,7 +120,7 @@ const UsersScreen = () => {
 
       {isOpenUserDialog && (
         <CreateUpdateUserDialog
-          user={exampleUser}
+          user={selectedUser}
           onClose={onCloseCreateUserDialog}
           onSubmit={onSubmitUser}
         />
@@ -174,74 +132,81 @@ const UsersScreen = () => {
             <EnhancedTableHead
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
-              rowCount={rows.length}
+              rowCount={users?.length}
             />
-            <TableBody>
-              {rows
-                .slice(
-                  currentPage * rowsPerPage,
-                  currentPage * rowsPerPage + rowsPerPage
-                )
-                .map((row: UsernameProps, index: number) => {
-                  const isItemSelected = isSelected(row.username);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => handleClick(event, row.username)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.username}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+            {isLoadingGetUsers ? (
+              <Spinner />
+            ) : (
+              <TableBody>
+                {users ? (
+                  users.map((row: User, idx: number) => {
+                    const isItemSelected = isSelected(row.username);
+                    const labelId = `enhanced-table-checkbox-${idx}`;
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
                       >
-                        {row.username}
-                      </TableCell>
-                      <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{row.role}</TableCell>
-                      <TableCell align="right">{row.status}</TableCell>
-                      <TableCell
-                        align="right"
-                        sx={{
-                          '.MuiButtonBase-root': { p: 0 },
-                          '.MuiSvgIcon-root': { color: theme.palette.primary.dark },
-                        }}
-                      >
-                        <IconButton sx={{ mr: '8px' }}>
-                          <OpenInNewIcon />
-                        </IconButton>
-                        <IconButton>
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow sx={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            onClick={event => handleClick(event, row.username)}
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.username}
+                        </TableCell>
+                        <TableCell align="right">{row.email}</TableCell>
+                        <TableCell align="right">{row.role}</TableCell>
+                        <TableCell align="right">{row.status}</TableCell>
+                        <TableCell
+                          align="right"
+                          sx={{
+                            '.MuiButtonBase-root': { p: 0 },
+                            '.MuiSvgIcon-root': {
+                              color: theme.palette.primary.dark,
+                            },
+                          }}
+                        >
+                          <IconButton
+                            sx={{ mr: '8px' }}
+                            onClick={() => {
+                              setSelectedUser(row);
+                              setIsOpenUserDialog(true);
+                            }}
+                          >
+                            <OpenInNewIcon />
+                          </IconButton>
+                          <IconButton>
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <Spinner />
+                )}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
         <TablePagination
           component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
+          count={info?.total}
+          rowsPerPage={ROW_PER_PAGE}
+          rowsPerPageOptions={[ROW_PER_PAGE]}
           page={currentPage}
           onPageChange={handleChangePage}
         />

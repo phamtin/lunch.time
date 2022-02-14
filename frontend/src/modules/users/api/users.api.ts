@@ -21,7 +21,7 @@ export const updateUserApi = ({
   return api.patch(url, data);
 };
 
-export const getUsersApi = ({ params }: { params: any }) => {
+export const getUsersApi = (params: any) => {
   const url = UsersEndpoints.GET_USERS;
   return api.get(url, {
     params,

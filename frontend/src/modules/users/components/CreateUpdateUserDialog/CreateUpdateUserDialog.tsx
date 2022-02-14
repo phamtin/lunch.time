@@ -67,7 +67,7 @@ const CreateUpdateUserDialog = ({
 
   const onHandleSubmit = (data: CreateAdminInput & UpdateUserInput) => {
     if (user && Object.keys(user).length) {
-      return onSubmit('update', data, user?._id); //  Update User
+      return onSubmit('update', data, user?.id); //  Update User
     }
     return onSubmit('create', data); //  Create Admin
   };

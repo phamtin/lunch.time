@@ -4,7 +4,7 @@ import { Model, Document } from 'mongoose';
 import { Users } from 'src/Domains/Users';
 import { IUserRepository } from 'src/Domains/Users/IUsers.repository';
 import { MAX_ROW } from 'src/utils/constants/app.constant';
-
+import faker from '@faker-js/faker';
 @Injectable()
 export class UserRepository implements IUserRepository {
     constructor(@InjectModel('Users') private readonly userModel: Model<Document>) {}
@@ -68,7 +68,6 @@ export class UserRepository implements IUserRepository {
                 data,
             };
         }
-
         return { data: await QUERY };
     }
 

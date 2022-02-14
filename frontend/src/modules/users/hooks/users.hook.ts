@@ -26,14 +26,11 @@ export const useUpdateUser = () => {
   });
 };
 
-// export const useGetUsers = () => {
-//   return useQuery(['users/useGetUsers'], getUsersApi, {
-//     enabled: false,
-//     onSuccess: () => {
-//       toastify('success', 'Successfully');
-//     },
-//     onError: err => {
-//       toastify('error', err as string);
-//     },
-//   });
-// };
+export const useGetUsers = (params: any) => {
+  return useQuery(['users/useGetUsers', params], () => getUsersApi(params), {
+    // enabled: false,
+    onError: err => {
+      toastify('error', err as string);
+    },
+  });
+};

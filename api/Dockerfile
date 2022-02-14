@@ -2,53 +2,47 @@
 #   Development
 #==========================================================
 
-FROM node:14-alpine AS node
+# FROM node:14-alpine AS node
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY package.json .
+# COPY package.json .
 
-RUN npm install
+# RUN npm install
 
-COPY . .
+# COPY . .
 
-USER node
+# EXPOSE 8000
 
-EXPOSE 8000
-
-CMD [ "npm", "run", "start:dev" ]
+# CMD [ "npm", "run", "start:dev" ]
 
 
 #==========================================================
 #   Production
 #==========================================================
 
-# FROM node:14-alpine AS node
+FROM node:14-alpine
 
-# WORKDIR /app
+WORKDIR /app
 
-# RUN npm install -g pm2
+RUN npm install -g pm2
 
-# COPY ["package.json", "package-lock.json*", "./"]
+COPY ["package.json", "package-lock.json*", "./"]
 
-# RUN npm install --production --silent
+RUN npm install --production --silent
 
-# COPY . .
+COPY . .
 
-# # ----- If UID:GID is 1000:1000 ------
-# USER node
+# ----- If UID:GID is 1000:1000 ------
 # RUN chown -R node:node /app
+# USER node
 
-# # -------------- Else ----------------
-# # RUN addgroup -g 20 appgroup
+# -------------- Else ----------------
+RUN addgroup -g 2222 appgroup
+RUN adduser -D -u 1111 appuser -G appgroup
+RUN chown -R appuser:appgroup /app
+USER appuser
 
-# # RUN adduser -D -u 501 appuser -G appgroup
+# ------------------------------------
 
-# # RUN chown -R appuser:appgroup /app
-
-# # USER appuser
-# # ------------------------------------
-
-# EXPOSE 8000
-
-# CMD ["pm2-runtime", "dist/main", "--env", "production"]
+CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]

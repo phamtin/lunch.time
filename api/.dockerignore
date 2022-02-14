@@ -1,7 +1,18 @@
-Dockerfile
-
+**/docker-compose*
+**/Dockerfile*
+**/.dockerignore
 .docker
 
-.git
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.vscode
+**/charts
+**/node_modules
+**/npm-debug.log
 
-node_modules
+**/secrets.dev.yaml
+**/values.dev.yaml
+README.md

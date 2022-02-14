@@ -1,8 +1,9 @@
 export type BasicUser = {
-  _id: string;
+  id: string;
   email: string;
   role: string;
   username: string;
+  status: 'active' | 'inactive';
   familyName?: string;
   givenName?: string;
   phone?: string;
@@ -42,6 +43,7 @@ export interface UpdateUserInput {
 }
 
 export interface UsernameProps {
+  id: string;
   username: string;
   email: number;
   role: number;

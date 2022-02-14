@@ -6,7 +6,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import AppRoutes from './routes/AppRoutes';
 import './styles/toast.style.css';
 
-const client = new QueryClient();
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      refetchOnReconnect: false,
+      staleTime: 1000 * 60 * 5 * 1,
+    },
+  },
+});
 
 function App() {
   return (
