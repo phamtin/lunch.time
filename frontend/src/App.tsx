@@ -13,6 +13,7 @@ const client = new QueryClient({
       retry: false,
       refetchOnReconnect: false,
       staleTime: 1000 * 60 * 5 * 1,
+      notifyOnChangeProps: 'tracked',
     },
   },
 });

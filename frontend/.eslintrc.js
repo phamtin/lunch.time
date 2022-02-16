@@ -93,5 +93,9 @@ module.exports = {
         'filenames/match-regex': 'off',
       },
     },
+    {
+      files: ['*hook.ts'],
+      rules: { '@typescript-eslint/no-explicit-any': 'off' },
+    },
   ],
 };

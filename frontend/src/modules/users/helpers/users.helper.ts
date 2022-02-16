@@ -27,19 +27,19 @@ export const headCells: readonly HeadCell[] = [
   },
   {
     id: 'email',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'EMAIL',
   },
   {
     id: 'role',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'ROLE',
   },
   {
     id: 'status',
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: 'STATUS',
   },
@@ -54,12 +54,11 @@ export const headCells: readonly HeadCell[] = [
 export const tabs = [
   {
     id: 1,
-    name: 'All Users',
+    name: 'All',
   },
   {
     id: 2,
-    name: 'Customers',
-    url: '/',
+    name: 'Users',
   },
   {
     id: 3,

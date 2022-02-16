@@ -1,16 +1,16 @@
 import { memo } from 'react';
 
-import { Box, CircularProgress } from '@mui/material';
+import './spinner.css';
 
 interface Props {
-  padding?: number;
+  size?: 'small' | 'medium';
 }
 
-const Spinner = ({ padding = 8 }: Props) => {
+const Spinner = ({ size = 'medium' }: Props) => {
   return (
-    <Box sx={{ boxShadow: 0, p: padding, textAlign: 'center' }}>
-      <CircularProgress />
-    </Box>
+    <div className="wrapper">
+      <span className={`${size === 'medium' ? 'md' : 'sm'} loader`} />
+    </div>
   );
 };
 

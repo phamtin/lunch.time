@@ -3,7 +3,11 @@ import qs from 'qs';
 import { api } from '@app/api/api';
 
 import { UsersEndpoints } from '../constants/users.endpoint';
-import { CreateAdminInput, UpdateUserInput } from '../types/users.type';
+import {
+  CreateAdminInput,
+  ParamsListUsers,
+  UpdateUserInput,
+} from '../types/users.type';
 
 export const createAdminApi = ({ data }: { data: CreateAdminInput }) => {
   const url = UsersEndpoints.ADMIN;
@@ -21,7 +25,7 @@ export const updateUserApi = ({
   return api.patch(url, data);
 };
 
-export const getUsersApi = (params: any) => {
+export const getUsersApi = (params: ParamsListUsers) => {
   const url = UsersEndpoints.GET_USERS;
   return api.get(url, {
     params,

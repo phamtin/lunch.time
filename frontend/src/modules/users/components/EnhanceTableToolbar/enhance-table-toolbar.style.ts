@@ -10,16 +10,26 @@ export const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    border: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: '8px',
-    padding: '5px 10px',
-    marginRight: '9px',
+    border: `1px solid ${theme.palette.grey[400]}`,
+    borderRadius: '10px',
+    padding: '4px 10px',
+    marginRight: '10px',
+    '&:hover': {
+      border: `1px solid ${theme.palette.primary.light}`,
+    },
   },
-  input: {
-    border: 0,
-    padding: '5px 10px',
-    flex: 1,
-    outline: 'none',
-    fontSize: '16px',
+  formSearch: {
+    width: '100%',
+    '& .input': {
+      border: 0,
+      padding: '4.5px 10px',
+      flex: 1,
+      outline: 'none',
+      fontSize: '16px',
+      '&::placeholder': {
+        color: `${theme.palette.grey[400]}`,
+        fontSize: 14,
+      },
+    },
   },
 });

@@ -3,17 +3,29 @@ import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { Box } from '@mui/system';
+import { useForm } from 'react-hook-form';
 
-import { EnhancedTableToolbarProps } from '../../types/users.type';
 import { useStyles } from './enhance-table-toolbar.style';
 
+export interface EnhancedTableToolbarProps {
+  numSelected: number;
+  searchUsers: (query: string) => void;
+}
+
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
+  const { numSelected, searchUsers } = props;
   const classes = useStyles();
+
+  const { handleSubmit, register } = useForm<{ query: string }>({
+    mode: 'onSubmit',
+  });
+
+  const onSubmitSearch = (data: { query: string }) => searchUsers(data.query);
 
   return (
     <Toolbar
       sx={{
+        py: 2,
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
@@ -32,20 +44,23 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Box className={classes.inputContainer}>
-          <SearchIcon />
-          <input
-            type="text"
-            placeholder="Search by name, email or username..."
-            className={classes.input}
-          />
-        </Box>
+        <form onSubmit={handleSubmit(onSubmitSearch)} className={classes.formSearch}>
+          <Box className={classes.inputContainer}>
+            <SearchIcon />
+            <input
+              {...register('query', { minLength: 2 })}
+              type="text"
+              placeholder="Search by name, email or username..."
+              className="input"
+            />
+          </Box>
+        </form>
       )}
 
       {numSelected > 0 && (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon />
+            <DeleteIcon color="error" />
           </IconButton>
         </Tooltip>
       )}

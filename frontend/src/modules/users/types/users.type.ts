@@ -42,28 +42,19 @@ export interface UpdateUserInput {
   avatarUrl?: string;
 }
 
-export interface UsernameProps {
-  id: string;
-  username: string;
-  email: number;
-  role: number;
-  status: number;
-  actions: string | undefined;
-}
-
-export interface EnhancedTableProps {
-  numSelected: number;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  rowCount: number;
-}
-
-export interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
-
 export interface HeadCell {
   disablePadding: boolean;
-  id: keyof UsernameProps;
+  id: string;
   label: string;
   numeric: boolean;
+}
+
+export interface ParamsListUsers {
+  id: string;
+  page?: number;
+  limit?: number;
+  usePage?: boolean;
+  q?: string | string[];
+  sort?: string | string[];
+  direction?: string | string[];
 }
