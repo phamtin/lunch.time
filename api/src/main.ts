@@ -1,15 +1,23 @@
 import { ForbiddenException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as compression from 'compression';
 
 import { AppModule } from './app.module';
 
 let app;
 async function bootstrap() {
-    console.log('=============================================\n');
-    console.log('== Lunchtime API initialized successfully...\n');
-    console.log('=============================================');
+    console.log('--------------------------------------------');
+    console.log('| Lunchtime API initialized successfully...');
+    console.log('--------------------------------------------');
 
     app = await NestFactory.create(AppModule);
+
+    app.use(
+        compression({
+            level: 3,
+            threshold: 5 * 1000, // 5kb
+        }),
+    );
 
     app.enableCors({
         origin: (requestOrigin, callback) => {

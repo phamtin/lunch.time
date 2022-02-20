@@ -12,7 +12,7 @@ const client = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
       refetchOnReconnect: false,
-      staleTime: 1000 * 60 * 5 * 1,
+      staleTime: 5 * 60 * 1000, //  5 minutes
       notifyOnChangeProps: 'tracked',
     },
   },

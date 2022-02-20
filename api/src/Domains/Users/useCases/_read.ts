@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { Direction, RepoPayload } from 'src/utils/types/app.type';
 import { Users } from '..';
 import { IUserRepository } from '../IUsers.repository';
+import { UserRepoPayload } from '../user.type';
 
 const UserRepo = () => Inject('UserRepo');
 
@@ -13,14 +15,16 @@ export class GetUser {
      *  ---------------------------------
      */
     public async GetUsersByAdmin(query: Record<string, string>): Promise<any> {
-        const { q, sort, direction, page, limit, usePage } = query;
+        const { q, sort, direction, page, limit, usePage, role } = query;
 
-        let payload = {};
+        let payload: UserRepoPayload & RepoPayload = {};
+
+        if (role) payload['role'] = role;
 
         if (q) payload['q'] = q;
 
         if (sort && ['asc', 'desc'].includes(direction)) {
-            payload['sort'] = { [sort]: direction };
+            payload['sort'] = { [sort]: direction as Direction };
         }
 
         if (usePage) {

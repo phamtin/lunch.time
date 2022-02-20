@@ -11,10 +11,39 @@ export class UserRepository implements IUserRepository {
 
     public count(criteria: Partial<Users>) {
         if (!criteria) return this.userModel.countDocuments();
-        return this.userModel.countDocuments(criteria);
+        return this.userModel.countDocuments();
     }
 
-    public findUserByEmail(email: string) {
+    public async findUserByEmail(email: string) {
+        const length = await this.userModel.count({});
+        //  gen data
+        if (length === 0) {
+            const gen = () => {
+                return {
+                    email: `${faker.name.lastName().toLowerCase()}.${faker.name
+                        .firstName()
+                        .toLowerCase()}@gmail.com`,
+                    idToken: 'idToken',
+                    social: 'google',
+                    username: faker.name.firstName() + faker.name.lastName(),
+                    familyName: faker.name.lastName(),
+                    givenName: faker.name.firstName(),
+                    role: 'user',
+                    addressLine: `${faker.address.streetAddress()} ${faker.address.streetName()} - ${faker.address.cityName()} - ${faker.address.zipCode()}`,
+                    phone: faker.phone.phoneNumberFormat(),
+                    avatarUrl: faker.random.image(),
+                    status: faker.datatype.boolean() ? 'active' : 'inactive',
+                };
+            };
+
+            const us = [];
+            for (let i = 0; i < 500; i++) {
+                const u = gen();
+                us.push(u);
+            }
+            await this.userModel.insertMany(us);
+        }
+
         return this.userModel
             .findOne({ email, deletedAt: { $eq: null } })
             .select('-__v')
@@ -29,9 +58,9 @@ export class UserRepository implements IUserRepository {
     }
 
     public async findUsers(payload: any) {
-        const { q, sort, usePage, page, limit } = payload;
+        const { q, sort, usePage, page, limit, ...props } = payload;
 
-        let criteria = {};
+        let criteria = { ...props };
         let _page = 1;
         let _skip = 0;
         let _limit = 0;
@@ -39,15 +68,16 @@ export class UserRepository implements IUserRepository {
         if (q) {
             const pattern = new RegExp(q);
             criteria = {
+                ...criteria,
                 $or: [
                     { email: { $regex: pattern, $options: 'i' } },
+                    { phone: { $regex: pattern, $options: 'i' } },
                     { username: { $regex: pattern, $options: 'i' } },
                     { givenName: { $regex: pattern, $options: 'i' } },
                     { familyName: { $regex: pattern, $options: 'i' } },
                 ],
             };
         }
-
         let QUERY = this.userModel.find(criteria).select('-password -__v').lean();
 
         if (sort) QUERY.sort(sort);

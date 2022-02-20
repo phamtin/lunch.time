@@ -5,9 +5,9 @@ export class UserMapper {
     public static updateToDomain(update: UpdateProfileDto): Partial<Users> {
         const partialUser: Partial<Users> = {
             username: update.username ?? undefined,
-            password: update.password ?? undefined,
             givenName: update.givenName ?? undefined,
             familyName: update.familyName ?? undefined,
+            password: update.password ?? undefined,
             phone: update.phone ?? undefined,
             status: update.status ?? undefined,
             avatarUrl: update.avatarUrl ?? undefined,

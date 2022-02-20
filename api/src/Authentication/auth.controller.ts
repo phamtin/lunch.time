@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { SigninDto, SigninSocialDto, SignupAdminDto } from './dto/auth.dto';
-import { AuthGuard } from './Guards/auth.guard';
+// import { AuthGuard } from './Guards/auth.guard';
 import {
     SigninDtoValidation,
     SignupDtoValidation,

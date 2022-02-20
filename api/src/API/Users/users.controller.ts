@@ -5,7 +5,7 @@ import { AuthGuard } from 'src/Authentication/Guards/auth.guard';
 import { GetUser } from 'src/Domains/Users/useCases/_read';
 import { UpdateUser } from 'src/Domains/Users/useCases/_update';
 import { UpdateProfileDto } from './users.dto';
-import { AdminGetUsersValidation } from './validations/user.validation';
+import { AdminGetUsersValidation } from './user.validation';
 
 @UseGuards(AuthGuard)
 @Controller()

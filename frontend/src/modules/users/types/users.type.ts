@@ -57,4 +57,5 @@ export interface ParamsListUsers {
   q?: string | string[];
   sort?: string | string[];
   direction?: string | string[];
+  role?: string;
 }

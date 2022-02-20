@@ -1,3 +1,5 @@
+import { ROLE } from '@app/utils/constants/constants';
+
 import { HeadCell, User } from '../types/users.type';
 
 export const renderFunctionalityText = (user: User | undefined) => {
@@ -64,8 +66,9 @@ export const tabs = [
     id: 3,
     name: 'Adminstrators',
   },
-  {
-    id: 4,
-    name: 'Subcribers',
-  },
 ];
+
+export const UserTypeMapper: Record<number, string> = {
+  1: ROLE.USER,
+  2: ROLE.ADMIN,
+};

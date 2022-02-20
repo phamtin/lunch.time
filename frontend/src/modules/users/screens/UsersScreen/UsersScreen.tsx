@@ -1,36 +1,42 @@
-import { useState, MouseEvent, SyntheticEvent, ChangeEvent, useEffect } from 'react';
+import { useState, MouseEvent, SyntheticEvent, ChangeEvent } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { Button, Chip, IconButton, Tab, Tabs } from '@mui/material';
-import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import {
+  Box,
+  Button,
+  Chip,
+  IconButton,
+  Tab,
+  Tabs,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
 
 import Spinner from '@app/components/Spinner/Spinner';
-import theme from '@app/styles/theme';
 import { STATUS } from '@app/utils/constants/constants';
 
 import CreateUpdateUserDialog from '../../components/CreateUpdateUserDialog/CreateUpdateUserDialog';
 import EnhancedTableHead from '../../components/EnhanceTableHead/EnhanceTableHead';
 import EnhancedTableToolbar from '../../components/EnhanceTableToolbar/EnhanceTableToolbar';
+import ProfileBox from '../../components/ProfileBox/ProfileBox';
 import { ROW_PER_PAGE } from '../../constants/users.constant';
-import { tabs } from '../../helpers/users.helper';
+import { tabs, UserTypeMapper } from '../../helpers/users.helper';
 import { useCreateAdmin, useGetUsers, useUpdateUser } from '../../hooks/users.hook';
 import { CreateAdminInput, UpdateUserInput, User } from '../../types/users.type';
+import { useStyles } from './users-screen.style';
 
 const UsersScreen = () => {
+  const classes = useStyles();
   const [isOpenUserDialog, setIsOpenUserDialog] = useState<boolean>(false);
   const [selected, setSelected] = useState<readonly string[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [value, setValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [value, setValue] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<User | undefined>(undefined);
 
@@ -41,6 +47,7 @@ const UsersScreen = () => {
     usePage: true,
     page: currentPage + 1 ? currentPage + 1 : 1,
     limit: ROW_PER_PAGE,
+    role: UserTypeMapper[value] as string,
   });
   const users = dataUsers?.data.data;
   const info = dataUsers?.data.info;
@@ -66,7 +73,7 @@ const UsersScreen = () => {
 
   const handleSelectAllClick = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      const newSelecteds = users?.map((n: User) => n.username);
+      const newSelecteds = users?.map((n: User) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -74,15 +81,16 @@ const UsersScreen = () => {
   };
 
   const handleChange = (e: SyntheticEvent, newValue: number) => {
+    setCurrentPage(0);
     setValue(newValue);
   };
 
-  const handleClick = (e: MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (e: MouseEvent<unknown>, id: string) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -100,9 +108,12 @@ const UsersScreen = () => {
     setCurrentPage(selectedPage);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
-  const onSearchUsers = (query: string) => setSearch(query);
+  const onSearchUsers = (query: string) => {
+    setCurrentPage(0);
+    setSearch(query);
+  };
 
   return (
     <>
@@ -128,104 +139,92 @@ const UsersScreen = () => {
 
       {isOpenUserDialog && (
         <CreateUpdateUserDialog
-          user={selectedUser}
           onClose={onCloseCreateUserDialog}
           onSubmit={onSubmitUser}
         />
       )}
-      <Paper>
+      <div className={classes.tableWrapper}>
         <EnhancedTableToolbar
           numSelected={selected.length}
           searchUsers={onSearchUsers}
         />
-        <TableContainer>
-          {isLoadingGetUsers ? (
-            <Spinner />
-          ) : (
-            <Table aria-labelledby="tableTitle">
-              <EnhancedTableHead
-                numSelected={selected.length}
-                onSelectAllClick={handleSelectAllClick}
-                rowCount={users?.length}
-              />
-              <TableBody>
-                {users &&
-                  users.map((row: User, idx: number) => {
-                    const isItemSelected = isSelected(row.username);
-                    const labelId = `enhanced-table-checkbox-${idx}`;
-                    return (
-                      <TableRow
-                        key={row.id}
-                        tabIndex={-1}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        selected={isItemSelected}
-                        hover
+        {isLoadingGetUsers ? (
+          <Spinner />
+        ) : (
+          <Table aria-labelledby="tableTitle">
+            <EnhancedTableHead
+              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
+              rowCount={users?.length}
+            />
+            <TableBody>
+              {users?.map((row: User, idx: number) => {
+                const isItemSelected = isSelected(row.id);
+                const labelId = `enhanced-table-checkbox-${idx}`;
+                return (
+                  <TableRow
+                    key={row.id}
+                    tabIndex={-1}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    selected={isItemSelected}
+                    hover
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                        onClick={event => handleClick(event, row.id)}
+                      />
+                    </TableCell>
+                    <TableCell
+                      width="24%"
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
+                      <ProfileBox
+                        src={row.avatarUrl}
+                        maxWidth="350px"
+                        username={row.username}
+                        title={row.addressLine}
+                      />
+                    </TableCell>
+                    <TableCell width="20%">{row.email}</TableCell>
+                    <TableCell>
+                      <b>{row.role}</b>
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={row.status}
+                        variant="outlined"
+                        size="small"
+                        color={row.status === STATUS.ACTIVE ? 'success' : 'error'}
+                      />
+                    </TableCell>
+                    <TableCell align="right" className={classes.optionCell}>
+                      <IconButton
+                      // onClick={}
                       >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            color="primary"
-                            checked={isItemSelected}
-                            inputProps={{ 'aria-labelledby': labelId }}
-                            onClick={event => handleClick(event, row.username)}
-                          />
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
-                        >
-                          <b>{row.username}</b>
-                        </TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell>
-                          <b>{row.role}</b>
-                        </TableCell>
-                        <TableCell>
-                          <Chip
-                            label={row.status}
-                            variant="outlined"
-                            size="small"
-                            color={
-                              row.status === STATUS.ACTIVE ? 'success' : 'error'
-                            }
-                          />
-                        </TableCell>
-                        <TableCell
-                          align="right"
+                        <OpenInNewIcon sx={{ fontSize: 19 }} />
+                      </IconButton>
+                      <IconButton>
+                        <DeleteIcon
                           sx={{
-                            '.MuiButtonBase-root': { p: 0 },
-                            '.MuiSvgIcon-root': {
-                              color: theme.palette.primary.main,
-                            },
+                            fontSize: 21,
+                            '&.MuiSvgIcon-root': { color: '#e04346!important' },
                           }}
-                        >
-                          <IconButton
-                            sx={{ mr: '14px' }}
-                            onClick={() => {
-                              setSelectedUser(row);
-                              setIsOpenUserDialog(true);
-                            }}
-                          >
-                            <OpenInNewIcon sx={{ fontSize: 19 }} />
-                          </IconButton>
-                          <IconButton>
-                            <DeleteIcon
-                              sx={{
-                                fontSize: 21,
-                                '&.MuiSvgIcon-root': { color: '#e04346!important' },
-                              }}
-                            />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          )}
-        </TableContainer>
+                        />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
         {info && (
           <TablePagination
             sx={{ mr: 0.75 }}
@@ -237,7 +236,7 @@ const UsersScreen = () => {
             onPageChange={handleChangePage}
           />
         )}
-      </Paper>
+      </div>
     </>
   );
 };

@@ -7,7 +7,7 @@ import {
 import * as Joi from 'joi';
 
 @Injectable()
-export class AdminGetUsersValidation implements PipeTransform {
+export class AdminGetMeetingsValidation implements PipeTransform {
     private schema: Joi.ObjectSchema;
 
     constructor() {

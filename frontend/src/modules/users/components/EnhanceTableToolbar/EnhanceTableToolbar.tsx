@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import { IconButton, Toolbar, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
@@ -50,7 +50,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
             <input
               {...register('query', { minLength: 2 })}
               type="text"
-              placeholder="Search by name, email or username..."
+              placeholder="Search by name, phone or email..."
               className="input"
             />
           </Box>
@@ -58,11 +58,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
 
       {numSelected > 0 && (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon color="error" />
-          </IconButton>
-        </Tooltip>
+        <IconButton>
+          <DeleteIcon color="error" />
+        </IconButton>
       )}
     </Toolbar>
   );

@@ -1,21 +1,21 @@
 # version: "3.8"
 # services:
-#   frontend:
-#     build:
-#       context: ./frontend
-#       dockerfile: Dockerfile
-#     env_file:
-#       - ./frontend/.env
-#     volumes:
-#       - ./frontend:/app
-#       - /app/node_modules
-#     restart: unless-stopped
-#     ports:
-#       - "3000:3000"
-#     # stdin_open: true
-#     # tty: true
-#     depends_on:
-#       - api
+#   # frontend:
+#   #   build:
+#   #     context: ./frontend
+#   #     dockerfile: Dockerfile
+#   #   env_file:
+#   #     - ./frontend/.env
+#   #   volumes:
+#   #     - ./frontend:/app
+#   #     - /app/node_modules
+#   #   restart: unless-stopped
+#   #   ports:
+#   #     - "3000:3000"
+#   #   # stdin_open: true
+#   #   # tty: true
+#   #   depends_on:
+#   #     - api
 
 #   api:
 #     build:
@@ -39,7 +39,8 @@
 #     volumes:
 #       - ./api/.docker/data/database:/data/db
 #     restart: unless-stopped
-
+#     logging:
+#       driver: none
 # ===============================================================
 
 version: "3.8"
@@ -56,8 +57,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:80"
-    # stdin_open: true
-    # tty: true
+    stdin_open: true
+    tty: true
     depends_on:
       - api
 
@@ -82,5 +83,8 @@ services:
       - "27017:27017"
       # - "27018:27017"
     volumes:
-      - ./api/.docker/data/database:/data/db
+      - mongodata:/data/db
     restart: unless-stopped
+
+volumes:
+  mongodata:

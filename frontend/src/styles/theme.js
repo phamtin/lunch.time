@@ -50,7 +50,7 @@ const theme = createTheme({
   palette: {
     text: {
       primary: '#243961',
-      secondary: 'rgba(0, 0, 0, 0.5)',
+      secondary: 'rgba(0, 0, 0, 0.6)',
       disabled: 'rgba(0, 0, 0, 0.4)',
     },
     primary: {

@@ -9,6 +9,7 @@
 **/.project
 **/.settings
 **/.vscode
+**/*pem
 **/charts
 **/node_modules
 **/npm-debug.log
