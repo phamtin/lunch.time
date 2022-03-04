@@ -2,45 +2,45 @@
 #   Development
 #==========================================================
 
-# FROM node:14-alpine AS node
+FROM node:14-alpine AS node
 
-# WORKDIR /app
+WORKDIR /app
 
-# COPY package.json .
+COPY package.json .
 
-# RUN npm install
+RUN npm install
 
-# COPY . .
+COPY . .
 
-# EXPOSE 8000
+EXPOSE 8000
 
-# CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "start:dev" ]
 
 
 #==========================================================
 #   Production
 #==========================================================
 
-FROM node:14-alpine
+# FROM node:14-alpine
 
-WORKDIR /app
+# WORKDIR /app
 
-RUN npm install -g pm2
+# RUN npm install -g pm2
 
-# ----- If UID:GID is 1000:1000 ------
-# RUN chown -R node:node /app
-# USER node
-# -------------- Else ----------------
-RUN addgroup -g 2222 appgroup
-RUN adduser -D -u 1111 appuser -G appgroup
-RUN chown -R appuser:appgroup /app
-USER appuser
-# ------------------------------------
+# # ----- If UID:GID is 1000:1000 ------
+# # RUN chown -R node:node /app
+# # USER node
+# # -------------- Else ----------------
+# RUN addgroup -g 2222 appgroup
+# RUN adduser -D -u 1111 appuser -G appgroup
+# RUN chown -R appuser:appgroup /app
+# USER appuser
+# # ------------------------------------
 
-COPY ./package.json .
+# COPY ./package.json .
 
-RUN npm install
+# RUN npm install
 
-COPY . .
+# COPY . .
 
-CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
+# CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]

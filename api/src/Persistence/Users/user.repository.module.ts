@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { SharedModule } from 'src/Shared/shared.module';
 
-import { UserSchema } from './user.entity';
 import { UserRepoProvider } from './user.persistence.provider';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: 'Users', schema: UserSchema }])],
+    imports: [SharedModule],
     providers: [UserRepoProvider],
     exports: [UserRepoProvider],
 })

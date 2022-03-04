@@ -1,48 +1,3 @@
-# version: "3.8"
-# services:
-#   # frontend:
-#   #   build:
-#   #     context: ./frontend
-#   #     dockerfile: Dockerfile
-#   #   env_file:
-#   #     - ./frontend/.env
-#   #   volumes:
-#   #     - ./frontend:/app
-#   #     - /app/node_modules
-#   #   restart: unless-stopped
-#   #   ports:
-#   #     - "3000:3000"
-#   #   # stdin_open: true
-#   #   # tty: true
-#   #   depends_on:
-#   #     - api
-
-#   api:
-#     build:
-#       context: ./api
-#       dockerfile: Dockerfile
-#     ports:
-#       - "8000:8000"
-#     volumes:
-#       - ./api:/app
-#       - /app/node_modules
-#     restart: unless-stopped
-#     env_file:
-#       - ./api/.env
-#     depends_on:
-#       - database
-
-#   database:
-#     image: mongo:4.4.10
-#     ports:
-#       - "27018:27017"
-#     volumes:
-#       - ./api/.docker/data/database:/data/db
-#     restart: unless-stopped
-#     logging:
-#       driver: none
-# ===============================================================
-
 version: "3.8"
 services:
   frontend:
@@ -56,9 +11,9 @@ services:
       - /app/node_modules
     restart: unless-stopped
     ports:
-      - "3000:80"
-    stdin_open: true
-    tty: true
+      - "3000:3000"
+    # stdin_open: true
+    # tty: true
     depends_on:
       - api
 
@@ -68,23 +23,118 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    # volumes:
-    #   - ./api:/app
-    #   - /app/node_modules
+    volumes:
+      - ./api:/app
+      - /app/node_modules
     restart: unless-stopped
     env_file:
       - ./api/.env
     depends_on:
       - database
+    networks:
+      - db-network
+
+  redis:
+    image: "redis:6.2.6-alpine"
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - ./api/.docker/data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - database
+    networks:
+      - db-network
 
   database:
     image: mongo:4.4.10
     ports:
       - "27017:27017"
-      # - "27018:27017"
+    env_file:
+      - ./api/.env
     volumes:
-      - mongodata:/data/db
+      - ./api/.docker/data/database:/data/db
+      - ./api/.docker/db-entrypoint.sh:/docker-entrypoint-initdb.d/db-entrypoint.sh
     restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_ROOT_PASS}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    networks:
+      - db-network
+    # logging:
+    #   driver: none
 
-volumes:
-  mongodata:
+networks:
+  db-network:
+    driver: bridge
+# ===============================================================
+
+# version: "3.8"
+# services:
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     env_file:
+#       - ./frontend/.env
+#     volumes:
+#       - ./frontend:/app
+#       - /app/node_modules
+#     restart: unless-stopped
+#     ports:
+#       - "3000:80"
+#     stdin_open: true
+#     tty: true
+#     depends_on:
+#       - api
+
+#   api:
+#     build:
+#       context: ./api
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8000:8000"
+#     # volumes:
+#     #   - ./api:/app
+#     #   - /app/node_modules
+#     restart: unless-stopped
+#     env_file:
+#       - ./api/.env
+#     depends_on:
+#       - database
+
+#   redis:
+#   image: "redis:6.2.6-alpine"
+#   ports:
+#     - "6379:6379"
+#   restart: unless-stopped
+#   volumes:
+#     - .docker/data/redis:/data
+#   healthcheck:
+#     test: ["CMD", "redis-cli","ping"]
+#     interval: 30s
+#     timeout: 10s
+#     retries: 5
+#   depends_on:
+#     - database
+
+#   database:
+#     image: mongo:4.4.10
+#     ports:
+#       - "27017:27017"
+#       # - "27018:27017"
+#     volumes:
+#       - mongodata:/data/db
+#     restart: unless-stopped
+
+# volumes:
+#   mongodata:

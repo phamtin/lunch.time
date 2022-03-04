@@ -1,21 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Document } from 'mongoose';
+import { Inject, Injectable } from '@nestjs/common';
+import { Db, ObjectId } from 'mongodb';
+import { CreateUserDto } from 'src/API/Users/users.dto';
+
 import { Users } from 'src/Domains/Users';
 import { IUserRepository } from 'src/Domains/Users/IUsers.repository';
 import { MAX_ROW } from 'src/utils/constants/app.constant';
 import faker from '@faker-js/faker';
+import { isDataView } from 'util/types';
 @Injectable()
 export class UserRepository implements IUserRepository {
-    constructor(@InjectModel('Users') private readonly userModel: Model<Document>) {}
+    constructor(@Inject('DATABASE_CONNECTION') private db: Db) {}
 
     public count(criteria: Partial<Users>) {
-        if (!criteria) return this.userModel.countDocuments();
-        return this.userModel.countDocuments();
+        if (!criteria) return this.db.collection('users').countDocuments();
+
+        return this.db.collection('users').countDocuments(criteria);
     }
 
     public async findUserByEmail(email: string) {
-        const length = await this.userModel.count({});
+        const length = await this.db.collection('users').count({});
         //  gen data
         if (length === 0) {
             const gen = () => {
@@ -37,33 +40,31 @@ export class UserRepository implements IUserRepository {
             };
 
             const us = [];
-            for (let i = 0; i < 500; i++) {
+            for (let i = 0; i < 1000; i++) {
                 const u = gen();
                 us.push(u);
             }
-            await this.userModel.insertMany(us);
+            await this.db.collection('users').insertMany(us);
         }
 
-        return this.userModel
-            .findOne({ email, deletedAt: { $eq: null } })
-            .select('-__v')
-            .lean();
+        return this.db
+            .collection('users')
+            .findOne({ email, deletedAt: { $eq: null } }, { projection: { __v: 0 } });
     }
 
     public findUserById(id: string, options?: Partial<Users>) {
-        return this.userModel
-            .findOne({ _id: id, deletedAt: { $eq: null } }, options)
-            .select('-password -__v')
-            .lean();
+        return this.db
+            .collection('users')
+            .findOne(
+                { _id: new ObjectId(id), deletedAt: { $eq: null } },
+                { projection: { __v: 0, password: 0 } },
+            );
     }
 
     public async findUsers(payload: any) {
-        const { q, sort, usePage, page, limit, ...props } = payload;
+        const { q, sort, usePage, page, limit, select, ...props } = payload;
 
         let criteria = { ...props };
-        let _page = 1;
-        let _skip = 0;
-        let _limit = 0;
 
         if (q) {
             const pattern = new RegExp(q);
@@ -78,60 +79,76 @@ export class UserRepository implements IUserRepository {
                 ],
             };
         }
-        let QUERY = this.userModel.find(criteria).select('-password -__v').lean();
+
+        let QUERY = this.db.collection('users').find({});
+
+        if (select) QUERY.project(select);
 
         if (sort) QUERY.sort(sort);
 
-        if (usePage) {
-            if (+limit > 0) {
-                _limit = +limit;
-            } else _limit = MAX_ROW;
-            if (+page > 1) _page = +page;
-            if (_page > 1 && _limit > 0) _skip = (_page - 1) * _limit;
+        if (usePage) return this.paginate(QUERY, criteria, page, limit);
 
-            const [data, count] = await Promise.all([
-                QUERY.skip(_skip).limit(_limit),
-                this.userModel.count(criteria),
-            ]);
-            return {
-                info: { page: _page, length: data.length, total: count },
-                data,
-            };
-        }
-        return { data: await QUERY };
+        return { data: await QUERY.toArray() };
     }
 
-    public createUser(user: Partial<Users>) {
-        return this.userModel.create(user);
+    public createUser(user: CreateUserDto) {
+        return this.db.collection<any>('users').insertOne(user);
     }
 
     public updateUserById(id: string, modifier: Partial<Users>) {
-        return this.userModel
-            .findByIdAndUpdate(id, { $set: modifier }, { new: true })
-            .select('-password -__v');
+        return this.db
+            .collection('users')
+            .findOneAndUpdate(
+                { _id: new ObjectId(id) },
+                { $set: modifier },
+                { returnDocument: 'after' },
+            );
     }
 
     public updateUsers(criteria: any, modifier: Partial<Users>) {
-        return this.userModel
-            .updateMany(criteria, { $set: modifier }, { new: true })
-            .select('-password -__v')
-            .lean();
+        return this.db.collection('users').updateMany(criteria, { $set: modifier });
     }
 
     public deleteUser(id: string) {
-        return this.userModel
+        return this.db
+            .collection('users')
             .findOneAndUpdate(
-                { _id: id },
+                { _id: new ObjectId(id) },
                 { $set: { deletedAt: new Date().toISOString() } },
-                { new: true },
-            )
-            .select('-password -__v')
-            .lean();
+                { returnDocument: 'after', projection: { __v: 0, password: 0 } },
+            );
     }
 
     public deleteUsers(criteria: any) {
-        return this.userModel.updateMany(criteria, {
+        return this.db.collection('users').updateMany(criteria, {
             $set: { deletedAt: new Date().toISOString() },
         });
+    }
+
+    public async paginate(
+        query: any,
+        criteria: Record<string, string>,
+        page: string,
+        limit: string,
+    ) {
+        let _page = 1,
+            _skip = 0,
+            _limit = 0;
+
+        if (+limit > 0) {
+            _limit = +limit;
+        } else _limit = MAX_ROW;
+        if (+page > 1) _page = +page;
+        if (_page > 1 && _limit > 0) _skip = (_page - 1) * _limit;
+
+        const [data, count] = await Promise.all([
+            query.skip(_skip).limit(_limit),
+            this.db.collection('users').count(criteria),
+        ]);
+
+        return {
+            info: { page: _page, length: data.length, total: count },
+            data,
+        };
     }
 }

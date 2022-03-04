@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { RedisCacheService } from 'src/Shared/services/redisCache.service';
 import { Direction, RepoPayload } from 'src/utils/types/app.type';
 import { Users } from '..';
+import UserCache from '../cache/user.cache';
 import { IUserRepository } from '../IUsers.repository';
 import { UserRepoPayload } from '../user.type';
 
@@ -8,7 +10,10 @@ const UserRepo = () => Inject('UserRepo');
 
 @Injectable()
 export class GetUser {
-    constructor(@UserRepo() private readonly userRepository: IUserRepository) {}
+    constructor(
+        @UserRepo() private readonly userRepository: IUserRepository,
+        private readonly userCache: UserCache,
+    ) {}
 
     /**
      *  [ MANAGE ]: Admin get list users
@@ -33,7 +38,9 @@ export class GetUser {
             payload['limit'] = limit;
         }
 
-        return this.userRepository.findUsers(payload);
+        // payload['select'] = 'username email role status avatarUrl addressLine';
+
+        return await this.userCache.getListUsers(payload);
     }
 
     /**

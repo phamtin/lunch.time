@@ -5,7 +5,7 @@ export interface IUserRepository {
 
     createUser(payload: Partial<Users>);
 
-    findUsers(payload: any);
+    findUsers(payload: any): any;
 
     findUserById(id: string, option: Partial<Users>);
 
